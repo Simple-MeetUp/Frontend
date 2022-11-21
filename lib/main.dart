@@ -1,7 +1,9 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
 import 'package:dawu_start_from_homescreen/models/Contest.dart';
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
+import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
+import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
 import 'package:dawu_start_from_homescreen/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +16,7 @@ MaterialColor createMaterialColor(Color color) {
   for (int i = 1; i < 10; i++) {
     strengths.add(0.1 * i);
   }
-  strengths.forEach((strength) {
+  for (var strength in strengths) {
     final double ds = 0.5 - strength;
     swatch[(strength * 1000).round()] = Color.fromRGBO(
       r + ((ds < 0 ? r : (255 - r)) * ds).round(),
@@ -22,14 +24,13 @@ MaterialColor createMaterialColor(Color color) {
       b + ((ds < 0 ? b : (255 - b)) * ds).round(),
       1,
     );
-  });
+  }
   return MaterialColor(color.value, swatch);
 }
 
 void main() {
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ContestListApi contestListApi = ContestListApi();
-    final DefaultColor = Color(0xff6667AB);
+    const DefaultColor = Color(0xff6667AB);
 
     return MultiProvider(
       providers: [
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
             value: CurrentIndex(index: 1)), // for BottomNavigationBar
         Provider<List<Contest>>.value(
             value: ContestListApi.getContestList()), // for ContestList
+        Provider<UserAttribute?>.value(
+            value: UserAttributeApi.getUserAttribute()), // for ContestList
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

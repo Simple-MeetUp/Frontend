@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login1.dart';
+import '../../constants.dart';
 import 'login2.dart';
 import 'signin1.dart';
 import 'signin2.dart';
@@ -35,7 +35,7 @@ class Login1 extends StatelessWidget {
             child: Text("팀원을 찾는 가장 쉬운 방법",
                 style: TextStyle(
                     fontSize: 28.0,
-                    color: Colors.purple,
+                    color: defaultColor,
                     fontWeight: FontWeight.w300),
                 textAlign: TextAlign.left),
           ),
@@ -44,7 +44,7 @@ class Login1 extends StatelessWidget {
             child: Text("SimpleTeamUp",
                 style: TextStyle(
                     fontSize: 36.0,
-                    color: Colors.purple,
+                    color: defaultColor,
                     fontWeight: FontWeight.w300),
                 textAlign: TextAlign.left),
           ),
@@ -54,7 +54,7 @@ class Login1 extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(16.0),
                 textStyle: const TextStyle(fontSize: 20),
-                backgroundColor: Colors.purple,
+                backgroundColor: defaultColor,
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/login2');
