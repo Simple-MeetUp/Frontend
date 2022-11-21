@@ -1,15 +1,16 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
 import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/http/request.dart';
+import 'package:dawu_start_from_homescreen/screens/account/signin2.dart';
 import 'package:flutter/material.dart';
-
-
 
 class Signin1 extends StatelessWidget {
   Signin1({Key? key}) : super(key: key);
-  final formGlobalKey = GlobalKey < FormState > ();
-  final validPW = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$');
-  final validEmail = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  final formGlobalKey = GlobalKey<FormState>();
+  final validPW =
+      RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$');
+  final validEmail = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   TextEditingController emailInputController = TextEditingController();
   TextEditingController pwInputController = TextEditingController();
   TextEditingController pwreInputController = TextEditingController();
@@ -18,7 +19,6 @@ class Signin1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         home: Scaffold(
           backgroundColor: Colors.white,
@@ -163,34 +163,36 @@ class Signin1 extends StatelessWidget {
                       controller: pwreInputController,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                          backgroundColor: defaultColor,
-                          minimumSize: Size(350, 50),
-                        ),
-                        onPressed: () {
-                          if(formGlobalKey.currentState!.validate()) {
-                            // 이메일 비밀번호 서버에 넘기고
-                            // 화면 전환
-                            Navigator.pushNamed(
-                                context,
-                                '/signin2'
-                            );
-                          }
-                        },
-                        child: const Text('계속하기'),
-                      ),
-                    ),
-                ],
+                  style: const TextStyle(
+                      fontSize: 15.0, height: 0.5, color: Colors.black),
+                  controller: pwreInputController,
+                ),
               ),
-            ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20),
+                    backgroundColor: defaultColor,
+                    minimumSize: const Size(350, 50),
+                  ),
+                  onPressed: () {
+                    if (formGlobalKey.currentState!.validate()) {
+                      // 이메일 비밀번호 서버에 넘기고
+                      // 화면 전환
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: ((context) => Signin2())));
+                    }
+                  },
+                  child: const Text('계속하기'),
+                ),
+              ),
+            ],
           ),
-        )
-    );
+        ),
+      ),
+    ));
   }
 }

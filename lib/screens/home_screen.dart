@@ -1,4 +1,5 @@
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
+import 'package:dawu_start_from_homescreen/screens/account/my_info_screen.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -79,6 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 break;
 
               case 2:
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: ((context) {
+                  return MyInfoScreen();
+                })));
                 break;
             }
           });

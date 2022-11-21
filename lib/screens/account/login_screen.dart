@@ -49,7 +49,8 @@ class LoginScreen extends StatelessWidget {
                       fontWeight: FontWeight.w300),
                   textAlign: TextAlign.left),
             ),
-            Padding(
+            Container(
+              height: 100,
               padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -62,15 +63,25 @@ class LoginScreen extends StatelessWidget {
                   }
                   return null;
                 },
+                style: const TextStyle(fontSize: 16),
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: defaultColor, width: 20.0)
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    labelText: 'email'),
-                style: const TextStyle(
-                    fontSize: 15.0, height: 0.5, color: Colors.black),
+                  hintText: "username@email.com",
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                        BorderSide(width: 1.4, color: Color(0x0F6A6B92)),
+                  ),
+                ),
                 controller: emailInputController,
               ),
             ),
@@ -83,7 +94,8 @@ class LoginScreen extends StatelessWidget {
                       fontWeight: FontWeight.w300),
                   textAlign: TextAlign.left),
             ),
-            Padding(
+            Container(
+              height: 100,
               padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -93,19 +105,30 @@ class LoginScreen extends StatelessWidget {
                   }
                   return null;
                 },
+                style: const TextStyle(fontSize: 16),
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                  labelText: 'password',
+                  hintText: "password",
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                    borderSide:
+                        BorderSide(width: 1.4, color: Color(0x0F6A6B92)),
+                  ),
                 ),
-                style: const TextStyle(
-                    fontSize: 15.0, height: 0.5, color: Colors.black),
                 controller: PWInputController,
               ),
             ),
             const SizedBox(
-              height: 20.0,
+              height: 200.0,
             ),
             Center(
               child: ElevatedButton(
@@ -113,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   textStyle: const TextStyle(fontSize: 20),
                   backgroundColor: defaultColor,
-                  minimumSize: Size(350, 50),
+                  minimumSize: const Size(350, 50),
                 ),
                 onPressed: () async {
                   if (validEmail.hasMatch(emailInputController.text)) {
@@ -125,11 +148,39 @@ class LoginScreen extends StatelessWidget {
                         );
                         String url = baseUrl + 'user/login';
                         UserResponse userResponse = await Login(url,loginRequest);
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: ((context) => HomeScreen())));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: ((context) => HomeScreen())));
                       }
                     }
                   }
+                  // temp -> to be deleted. just debuging
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: ((context) => HomeScreen())));
+                  // 틀리면 error 문구 출력
+                  // showDialog(
+                  //     context: context,
+                  //     builder: ((context) {
+                  //       return AlertDialog(
+                  //         title: const Text("로그인"),
+                  //         content: SizedBox(
+                  //             height: 50,
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: const [
+                  //                 Text("이메일 또는 비밀번호가 다릅니다."),
+                  //                 Padding(padding: EdgeInsets.all(5)),
+                  //                 Text("확인 후 다시 시도하세요."),
+                  //               ],
+                  //             )),
+                  //         actions: [
+                  //           TextButton(
+                  //               onPressed: (() {
+                  //                 Navigator.pop(context);
+                  //               }),
+                  //               child: const Text("확인"))
+                  //         ],
+                  //       );
+                  //     }));
                 },
                 child: const Text('로그인'),
               ),
@@ -147,9 +198,8 @@ class LoginScreen extends StatelessWidget {
                 child: const Text(
                   '가입하시겠습니까?',
                   style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: defaultColor
-                  ),
+                      decoration: TextDecoration.underline,
+                      color: defaultColor),
                 ),
               ),
             ),

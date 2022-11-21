@@ -50,30 +50,30 @@ class InitialScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height:200.0,
+                height: 200.0,
               ),
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(16.0),
-                  textStyle: const TextStyle(fontSize: 20),
-                  minimumSize: Size(350, 50),
+                    padding: const EdgeInsets.all(16.0),
+                    textStyle: const TextStyle(fontSize: 20),
+                    minimumSize: const Size(350, 50),
                   ),
                   onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: ((context) => LoginScreen())));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) => LoginScreen())));
                   },
                   child: const Text('로그인'),
                 ),
               ),
-               Center(
+              Center(
                 child: TextButton(
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(16.0),
                     textStyle: const TextStyle(fontSize: 14),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: ((context) => Signin1())));
                   },
                   child: const Text(
