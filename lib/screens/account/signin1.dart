@@ -1,4 +1,6 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
+import 'package:dawu_start_from_homescreen/http/dto.dart';
+import 'package:dawu_start_from_homescreen/http/request.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,6 +14,7 @@ class Signin1 extends StatelessWidget {
   TextEditingController pwInputController = TextEditingController();
   TextEditingController pwreInputController = TextEditingController();
   String vali = '';
+  final apiUrl = baseUrl + 'user/';
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +71,11 @@ class Signin1 extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20,top: 10,right: 20),
                     child: TextFormField(
+                      onEditingComplete: () async {
+                        String url = apiUrl + 'exist';
+                        EmailRequest emailRequest = EmailRequest(email: emailInputController.text);
+                        StringResponse stringResponse = await Email(url, emailRequest);
+                      },
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value){
                         if(value==null||value.isEmpty){

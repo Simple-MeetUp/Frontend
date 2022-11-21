@@ -1,17 +1,80 @@
-import 'dart:html';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'dto.dart';
 
-// Future<http.Response> fetchPost(String uri) async {
-//     final response =
-//     await http.get(Uri(path: uri, ));
-//
-//     if (response.statusCode == 200) {
-//       // 만약 서버가 OK 응답을 반환하면, JSON을 파싱합니다.
-//       return Post.fromJson(json.decode(response.body));
-//     } else {
-//       // 만약 응답이 OK가 아니면, 에러를 던집니다.
-//       throw Exception('Failed to load post');
-//     }
-//   }
-// }
+Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
+  final response = await http.post(
+    Uri(path: uri),
+    headers: <String, String> {
+      'Content-Type': 'application/json',
+    },
+    body: signUpRequest.toJson(),
+  );
+  if (response.statusCode == 200) {
+    return UserResponse.fromJson(jsonDecode(response.body));
+  } else {
+   throw Exception('Failed to post signup');
+  }
+}
+
+Future<UserResponse> Login(String uri, LoginRequest loginRequest) async {
+  final response = await http.post(
+    Uri(path: uri),
+    headers: <String, String> {
+      'Content-Type': 'application/json',
+    },
+    body: loginRequest.toJson(),
+  );
+  if (response.statusCode == 200) {
+    return UserResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
+
+Future<StringResponse> Reset(String uri, EmailRequest emailRequest) async {
+  final response = await http.post(
+    Uri(path: uri),
+    headers: <String, String> {
+      'Content-Type': 'application/json',
+    },
+    body: emailRequest.toJson(),
+  );
+  if (response.statusCode == 200) {
+    return StringResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
+
+Future<StringResponse> Nickname(String uri, String nickname) async {
+  final response = await http.post(
+    Uri(
+        path: uri,
+        queryParameters: <String, String> {
+          'nickname' : nickname,
+        }
+    ),
+  );
+  if (response.statusCode == 200) {
+    return StringResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
+
+Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
+  final response = await http.post(
+    Uri(path: uri),
+    headers: <String, String> {
+      'Content-Type': 'application/json',
+    },
+    body: emailRequest.toJson(),
+  );
+  if (response.statusCode == 200) {
+    return StringResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
