@@ -1,4 +1,6 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
+import 'package:dawu_start_from_homescreen/http/dto.dart';
+import 'package:dawu_start_from_homescreen/http/request.dart';
 import 'package:dawu_start_from_homescreen/screens/account/signin1.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -136,11 +138,16 @@ class LoginScreen extends StatelessWidget {
                   backgroundColor: defaultColor,
                   minimumSize: const Size(350, 50),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (validEmail.hasMatch(emailInputController.text)) {
                     if (validPW.hasMatch(PWInputController.text)) {
                       if (formGlobalKey.currentState!.validate()) {
-                        // 아이디 비번이 맞으면 로그인 성공, home으로 이동
+                        LoginRequest loginRequest = LoginRequest(
+                          email: emailInputController.text,
+                          password: PWInputController.text
+                        );
+                        String url = baseUrl + 'user/login';
+                        UserResponse userResponse = await Login(url,loginRequest);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: ((context) => HomeScreen())));
                       }
