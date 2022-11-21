@@ -78,3 +78,66 @@ Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
     throw Exception('Failed to post login');
   }
 }
+
+Future<CompetitionResponse> Submit(String uri, String mission) async {
+  final response = await http.post(
+    Uri(
+        path: uri,
+        queryParameters: <String, String> {
+          'mission' : mission,
+        }
+    ),
+  );
+  if (response.statusCode == 200) {
+    return CompetitionResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
+
+Future<CompetitionResponse> Set(String uri, CompetitionRequest competitionRequest) async {
+  final response = await http.post(
+    Uri(path: uri),
+    headers: <String, String> {
+      'Content-Type': 'application/json',
+    },
+    body: competitionRequest.toJson(),
+  );
+  if (response.statusCode == 200) {
+    return CompetitionResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
+
+Future<CompetitionResponse> Join(String uri, String mission) async {
+  final response = await http.post(
+    Uri(
+        path: uri,
+        queryParameters: <String, String> {
+          'mission' : mission,
+        }
+    ),
+  );
+  if (response.statusCode == 200) {
+    return CompetitionResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}
+
+Future<PageCompetitionResponse> Get(String uri, String status) async {
+  final response = await http.post(
+    Uri(
+        path: uri,
+        queryParameters: <String, String> {
+          'status' : status,
+        }
+    ),
+  );
+  if (response.statusCode == 200) {
+    return PageCompetitionResponse.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to post login');
+  }
+}

@@ -170,3 +170,40 @@ class PageCompetitionResponse {
     userId = json['userId'];
   }
 }
+
+class CompetitionRequest {
+  String? activityDurationFrom;
+  String? activityDurationTo;
+  String? category;
+  String? contents;
+  String? enrollDurationFrom;
+  String? enrollDurationTo;
+  int? personnelLowerBound;
+  int? personnelUpperBound;
+  String? title;
+
+  CompetitionRequest(
+      {this.activityDurationFrom,
+        this.activityDurationTo,
+        this.category,
+        this.contents,
+        this.enrollDurationFrom,
+        this.enrollDurationTo,
+        this.personnelLowerBound,
+        this.personnelUpperBound,
+        this.title});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['activityDurationFrom'] = this.activityDurationFrom;
+    data['activityDurationTo'] = this.activityDurationTo;
+    data['category'] = this.category;
+    data['contents'] = this.contents;
+    data['enrollDurationFrom'] = this.enrollDurationFrom;
+    data['enrollDurationTo'] = this.enrollDurationTo;
+    data['personnelLowerBound'] = this.personnelLowerBound;
+    data['personnelUpperBound'] = this.personnelUpperBound;
+    data['title'] = this.title;
+    return data;
+  }
+}
