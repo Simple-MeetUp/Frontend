@@ -21,6 +21,7 @@ class Signin1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+          resizeToAvoidBottomInset : false,
           backgroundColor: Colors.white,
           body: Center(
             child: Form(
@@ -163,11 +164,6 @@ class Signin1 extends StatelessWidget {
                       controller: pwreInputController,
                     ),
                   ),
-                  style: const TextStyle(
-                      fontSize: 15.0, height: 0.5, color: Colors.black),
-                  controller: pwreInputController,
-                ),
-              ),
               const SizedBox(
                 height: 20.0,
               ),
