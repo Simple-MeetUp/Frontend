@@ -3,6 +3,8 @@ import 'package:dawu_start_from_homescreen/screens/components/showing_spec_tile.
 import 'package:dawu_start_from_homescreen/screens/contest_apply_complete_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class ContestApplyScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -53,7 +55,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
                     style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF6667AB))),
+                        color: defaultColor)),
               ),
               const Padding(padding: EdgeInsets.all(30)),
               Container(
@@ -191,13 +193,11 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
                     hintText: "입력 예시) 모바일앱 백엔드",
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(2)),
-                      borderSide:
-                          BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                      borderSide: BorderSide(width: 1.4, color: defaultColor),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(2)),
-                      borderSide:
-                          BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                      borderSide: BorderSide(width: 1.4, color: defaultColor),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -267,7 +267,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
                 style: ElevatedButton.styleFrom(
                     fixedSize: Size(MediaQuery.of(context).size.width * 0.8,
                         MediaQuery.of(context).size.height * 0.05),
-                    backgroundColor: const Color(0xFF6667AB)),
+                    backgroundColor: defaultColor),
                 child: const Text("신청완료",
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

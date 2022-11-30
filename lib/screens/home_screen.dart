@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import '../models/Contest.dart';
 import 'components/contest_tile.dart';
 
+import '../constants.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() {
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("홈",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF6667AB),
+        backgroundColor: defaultColor,
       ),
       body: Column(
         children: [
@@ -64,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
         ],
         currentIndex: currentIndex.index,
-        selectedItemColor: const Color(0xFF6667AB),
+        selectedItemColor: defaultColor,
         onTap: ((value) {
           setState(() {
             currentIndex.setCurrentIndex(value);

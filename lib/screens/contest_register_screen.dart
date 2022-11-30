@@ -10,6 +10,8 @@ import '../models/current_index.dart';
 import '../providers/contest_list_api.dart';
 import 'home_screen.dart';
 
+import '../constants.dart';
+
 class ContestRegisterScreen extends StatefulWidget {
   @override
   _ContestRegisterScreenState createState() {
@@ -149,7 +151,7 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
       appBar: AppBar(
         title: const Text("공모전 등록",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF6667AB),
+        backgroundColor: defaultColor,
       ),
       body: Container(
           padding: const EdgeInsets.fromLTRB(30, 16, 30, 16),
@@ -203,13 +205,11 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                       hintText: "입력 예시) 프로그래밍 경진대회",
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(2)),
-                        borderSide:
-                            BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                        borderSide: BorderSide(width: 1.4, color: defaultColor),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(2)),
-                        borderSide:
-                            BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                        borderSide: BorderSide(width: 1.4, color: defaultColor),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -220,8 +220,8 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                   ),
                 ),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF6667AB)),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: defaultColor),
                     onPressed: (() {
                       // 화면에서 입력받은 값 확인하기
                       if ([
@@ -352,13 +352,11 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                   hintText: "입력 예시) 북한산 정보 관련 앱 서비스 개발",
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -514,13 +512,11 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                   hintText: "입력 예시) 백엔드 머신러닝 프론트엔드",
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -566,13 +562,13 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                         decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(2)),
-                            borderSide: BorderSide(
-                                width: 1.4, color: Color(0xFF6667AB)),
+                            borderSide:
+                                BorderSide(width: 1.4, color: defaultColor),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(2)),
-                            borderSide: BorderSide(
-                                width: 1.4, color: Color(0xFF6667AB)),
+                            borderSide:
+                                BorderSide(width: 1.4, color: defaultColor),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -616,13 +612,13 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                         decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(2)),
-                            borderSide: BorderSide(
-                                width: 1.4, color: Color(0xFF6667AB)),
+                            borderSide:
+                                BorderSide(width: 1.4, color: defaultColor),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(2)),
-                            borderSide: BorderSide(
-                                width: 1.4, color: Color(0xFF6667AB)),
+                            borderSide:
+                                BorderSide(width: 1.4, color: defaultColor),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -765,7 +761,7 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
         ],
-        selectedItemColor: const Color(0xFF6667AB),
+        selectedItemColor: defaultColor,
         onTap: ((value) {
           setState(() {
             currentIndex.setCurrentIndex(value);

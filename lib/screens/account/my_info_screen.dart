@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
 import '../../models/current_index.dart';
 import '../../models/user_attribute.dart';
 import '../../providers/user_attribute_api.dart';
@@ -253,7 +254,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
         ],
         currentIndex: currentIndex.index,
-        selectedItemColor: const Color(0xFF6667AB),
+        selectedItemColor: defaultColor,
         onTap: ((value) {
           setState(() {
             currentIndex.setCurrentIndex(value);

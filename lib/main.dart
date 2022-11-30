@@ -4,9 +4,10 @@ import 'package:dawu_start_from_homescreen/models/current_index.dart';
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
-import 'package:dawu_start_from_homescreen/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'screens/contest_accept_main_screen.dart';
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
@@ -39,7 +40,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ContestListApi contestListApi = ContestListApi();
-    const DefaultColor = Color(0xff6667AB);
 
     return MultiProvider(
       providers: [
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: createMaterialColor(defaultColor),
         ),
-        home: SplashScreen(), // origin : HomeScreen()
+        home: ContestAcceptMainScreen(index: 0), // origin : HomeScreen()
       ),
     );
   }

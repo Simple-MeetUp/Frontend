@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
+
 class ShowingSpecTile extends StatefulWidget {
   final String specName;
 
@@ -35,7 +37,7 @@ class _ShowingSpecTileState extends State<ShowingSpecTile> {
                 isChecked = value;
               });
             }),
-            activeColor: const Color(0xFF6667AB),
+            activeColor: defaultColor,
           )
         ],
       ),

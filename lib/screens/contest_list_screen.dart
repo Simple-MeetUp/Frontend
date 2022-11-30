@@ -9,6 +9,8 @@ import 'find_contest/contest_completed.dart';
 import 'find_contest/contest_joinable.dart';
 import 'find_contest/contest_ongoing.dart';
 
+import '../constants.dart';
+
 class ContestListScreen extends StatefulWidget {
   @override
   _ContestListScreenState createState() {
@@ -40,7 +42,7 @@ class _ContestListScreenState extends State<ContestListScreen>
       appBar: AppBar(
         title: const Text("공모전 찾기",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF6667AB),
+        backgroundColor: defaultColor,
         bottom: TabBar(
           indicatorSize: TabBarIndicatorSize.label,
           indicatorPadding: const EdgeInsets.fromLTRB(-16, -4, -16, 0),
@@ -68,7 +70,7 @@ class _ContestListScreenState extends State<ContestListScreen>
         CompletedContestScreen()
       ]),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF6667AB),
+        backgroundColor: defaultColor,
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
@@ -82,7 +84,7 @@ class _ContestListScreenState extends State<ContestListScreen>
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
         ],
-        selectedItemColor: const Color(0xFF6667AB),
+        selectedItemColor: defaultColor,
         onTap: ((value) {
           setState(() {
             currentIndex.setCurrentIndex(value);

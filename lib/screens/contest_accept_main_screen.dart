@@ -1,18 +1,18 @@
-import 'package:dawu_start_from_homescreen/models/Contest.dart';
-import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
-import 'package:dawu_start_from_homescreen/screens/contest_apply_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../models/Contest.dart';
+import '../providers/contest_list_api.dart';
+import 'contest_accept_member_screen.dart';
 
-class ContestDetailScreen extends StatelessWidget {
+class ContestAcceptMainScreen extends StatelessWidget {
   final int index;
   late Contest contest;
 
   List<String> keyList = ["내용", "관련 분야", "모집 인원", "활동 기간", "신청 기간"];
   Map<String, String> infoTable = {};
 
-  ContestDetailScreen({required this.index});
+  ContestAcceptMainScreen({required this.index});
 
   // TO DO: implement below widgets
   @override
@@ -51,10 +51,10 @@ class ContestDetailScreen extends StatelessWidget {
                       onPressed: (() {
                         Navigator.of(context).pushReplacement(
                             MaterialPageRoute(builder: ((context) {
-                          return ContestApplyScreen();
+                          return ContestAcceptMemberScreen();
                         })));
                       }),
-                      child: const Text("참가신청",
+                      child: const Text("신청자 확인",
                           style: TextStyle(
                             fontSize: 15,
                           )))

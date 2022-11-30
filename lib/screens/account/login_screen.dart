@@ -68,13 +68,11 @@ class LoginScreen extends StatelessWidget {
                   hintText: "username@email.com",
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -110,13 +108,11 @@ class LoginScreen extends StatelessWidget {
                   hintText: "password",
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
-                    borderSide:
-                        BorderSide(width: 1.4, color: Color(0xFF6667AB)),
+                    borderSide: BorderSide(width: 1.4, color: defaultColor),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -143,11 +139,11 @@ class LoginScreen extends StatelessWidget {
                     if (validPW.hasMatch(PWInputController.text)) {
                       if (formGlobalKey.currentState!.validate()) {
                         LoginRequest loginRequest = LoginRequest(
-                          email: emailInputController.text,
-                          password: PWInputController.text
-                        );
+                            email: emailInputController.text,
+                            password: PWInputController.text);
                         String url = baseUrl + 'user/login';
-                        UserResponse userResponse = await Login(url,loginRequest);
+                        UserResponse userResponse =
+                            await Login(url, loginRequest);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: ((context) => HomeScreen())));
                       }

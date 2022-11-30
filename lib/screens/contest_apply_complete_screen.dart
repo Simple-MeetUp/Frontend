@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class ContestApplyCompleteScreen extends StatelessWidget {
   Future<bool> _onWillPop() async {
     return false;
@@ -23,13 +25,13 @@ class ContestApplyCompleteScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF6667AB))),
+                          color: defaultColor)),
                   Padding(padding: EdgeInsets.all(5)),
                   Text("수고하셨습니다.",
                       style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF6667AB))),
+                          color: defaultColor)),
                 ],
               )),
           Container(
@@ -42,7 +44,7 @@ class ContestApplyCompleteScreen extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 fixedSize: Size(MediaQuery.of(context).size.width * 0.8,
                     MediaQuery.of(context).size.height * 0.05),
-                backgroundColor: const Color(0xFF6667AB)),
+                backgroundColor: defaultColor),
             child: const Text("신청완료",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           )

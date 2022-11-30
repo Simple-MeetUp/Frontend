@@ -36,7 +36,9 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
         name: "",
         field: "",
         gender: true,
-        birthDate: DateTime(2022));
+        birthDate: DateTime(2022),
+        joinedCount: 0,
+        joinedContestList: []);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +61,10 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   name: userAttribute!.name,
                   field: userAttribute!.field,
                   gender: userAttribute!.gender,
-                  birthDate: userAttribute!.birthDate));
+                  birthDate: userAttribute!.birthDate,
+                  // hazard. should be fixed.
+                  joinedCount: 0,
+                  joinedContestList: []));
 
               userAttribute = UserAttributeApi.getUserAttribute();
               // call api to apply updated attrs to userinfo
