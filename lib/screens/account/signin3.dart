@@ -19,6 +19,7 @@ class Signin3_2 extends State<Signin3> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Form(
         key: formGlobalKey,

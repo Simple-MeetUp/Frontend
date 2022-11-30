@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../constants.dart';
 import 'signin3.dart';
@@ -6,15 +7,16 @@ import 'signin3.dart';
 class Signin2 extends StatelessWidget {
   Signin2({Key? key}) : super(key: key);
   final formGlobalKey = GlobalKey<FormState>();
-  final validName =
-      RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+  final validName = RegExp(r"^[가-힣]{2,4}$");
   final validNickname = RegExp('[A-Za-z][A-Za-z0-9_]{3,29}');
   TextEditingController nameInputController = TextEditingController();
   TextEditingController nicknameInputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Form(
         key: formGlobalKey,
@@ -84,6 +86,7 @@ class Signin2 extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
               child: TextFormField(
+                inputFormatters: [FilteringTextInputFormatter(RegExp('[a-z A-Z ㄱ-ㅎ|가-힣|·|：]'), allow: true)],
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
