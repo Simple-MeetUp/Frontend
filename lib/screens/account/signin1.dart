@@ -121,6 +121,7 @@ class Signin1 extends StatelessWidget {
                       labelText: 'password'),
                   style: const TextStyle(
                       fontSize: 15.0, height: 0.5, color: Colors.black),
+                  obscureText: true,
                   controller: pwInputController,
                 ),
               ),
@@ -155,6 +156,7 @@ class Signin1 extends StatelessWidget {
                   ),
                   style: const TextStyle(
                       fontSize: 15.0, height: 0.5, color: Colors.black),
+                  obscureText: true,
                   controller: pwreInputController,
                 ),
               ),

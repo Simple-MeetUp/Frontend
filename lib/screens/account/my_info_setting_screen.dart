@@ -1,9 +1,12 @@
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
+import 'package:dawu_start_from_homescreen/screens/contest_list_screen.dart';
+import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/current_index.dart';
 import '../../providers/field_list_api.dart';
 
 class MyInfoSettingScreen extends StatefulWidget {
@@ -28,6 +31,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
     userAttribute ??= UserAttribute(
@@ -39,6 +43,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
         birthDate: DateTime(2022));
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Center(
           child: Text(
@@ -340,7 +345,37 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           ),
         ],
       ),
-      // bottomNavigationBar:
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: "공모전"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
+        ],
+        currentIndex: currentIndex.index,
+        selectedItemColor: const Color(0xFF6667AB),
+        onTap: ((value) {
+          setState(() {
+            currentIndex.setCurrentIndex(value);
+            switch (currentIndex.index) {
+              case 0:
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: ((context) {
+                  return ContestListScreen();
+                })));
+                break;
+              case 1:
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: ((context) {
+                  return HomeScreen();
+                })));
+                break;
+
+              case 2:
+                break;
+            }
+          });
+        }),
+      ),
     );
   }
 }

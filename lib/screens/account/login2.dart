@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:dawu_start_from_homescreen/constants.dart';
+import 'package:dawu_start_from_homescreen/http/dto.dart';
+import 'package:dawu_start_from_homescreen/http/request.dart';
+import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 
-import '../../constants.dart';
+import 'package:flutter/material.dart';
 
 class Login2 extends StatelessWidget {
   Login2({Key? key}) : super(key: key);
@@ -16,6 +19,7 @@ class Login2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Form(
         key: formGlobalKey,
@@ -90,6 +94,7 @@ class Login2 extends StatelessWidget {
                 ),
                 style: const TextStyle(
                     fontSize: 15.0, height: 0.5, color: Colors.black),
+                obscureText: true,
                 controller: PWInputController,
               ),
             ),
@@ -101,15 +106,52 @@ class Login2 extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 20),
                   backgroundColor: defaultColor,
                 ),
-                onPressed: () {
+                onPressed: () async{
                   if (validEmail.hasMatch(emailInputController.text)) {
                     if (validPW.hasMatch(PWInputController.text)) {
                       if (formGlobalKey.currentState!.validate()) {
                         // 아이디 비번이 맞으면 로그인 성공, home으로 이동
-                        // 틀리면 error 문구 출력
+                        LoginRequest loginRequest = LoginRequest(
+                            email: emailInputController.text,
+                            password: PWInputController.text);
+                        String url = baseUrl + 'user/login';
+                        UserResponse userResponse =
+                            await Login(url, loginRequest);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: ((context) => HomeScreen())));
                       }
                     }
                   }
+
+                  // temp -> to be deleted. just debuging
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: ((context) => HomeScreen())));
+
+                  // 틀리면 error 문구 출력
+                  // showDialog(
+                  //     context: context,
+                  //     builder: ((context) {
+                  //       return AlertDialog(
+                  //         title: const Text("로그인"),
+                  //         content: SizedBox(
+                  //             height: 50,
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: const [
+                  //                 Text("이메일 또는 비밀번호가 다릅니다."),
+                  //                 Padding(padding: EdgeInsets.all(5)),
+                  //                 Text("확인 후 다시 시도하세요."),
+                  //               ],
+                  //             )),
+                  //         actions: [
+                  //           TextButton(
+                  //               onPressed: (() {
+                  //                 Navigator.pop(context);
+                  //               }),
+                  //               child: const Text("확인"))
+                  //         ],
+                  //       );
+                  //     }));
                 },
                 child: const Text('로그인'),
               ),

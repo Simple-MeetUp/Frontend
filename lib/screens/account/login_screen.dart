@@ -5,8 +5,12 @@ import 'package:dawu_start_from_homescreen/screens/account/signin1.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  @override
+  LoginScreen_ createState() => LoginScreen_();
+}
+
+class LoginScreen_ extends State<LoginScreen> {
   final formGlobalKey = GlobalKey<FormState>();
   final validPW =
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$');
@@ -19,6 +23,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Form(
         key: formGlobalKey,
@@ -124,6 +129,7 @@ class LoginScreen extends StatelessWidget {
                         BorderSide(width: 1.4, color: Color(0x0F6A6B92)),
                   ),
                 ),
+                obscureText: true,
                 controller: PWInputController,
               ),
             ),
@@ -143,19 +149,21 @@ class LoginScreen extends StatelessWidget {
                     if (validPW.hasMatch(PWInputController.text)) {
                       if (formGlobalKey.currentState!.validate()) {
                         LoginRequest loginRequest = LoginRequest(
-                          email: emailInputController.text,
-                          password: PWInputController.text
-                        );
+                            email: emailInputController.text,
+                            password: PWInputController.text);
                         String url = baseUrl + 'user/login';
-                        UserResponse userResponse = await Login(url,loginRequest);
+                        UserResponse userResponse =
+                            await Login(url, loginRequest);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: ((context) => HomeScreen())));
                       }
                     }
                   }
+
                   // temp -> to be deleted. just debuging
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: ((context) => HomeScreen())));
+
                   // 틀리면 error 문구 출력
                   // showDialog(
                   //     context: context,
