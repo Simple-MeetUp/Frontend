@@ -89,19 +89,3 @@ class InitialScreen extends StatelessWidget {
         ]));
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     title: 'Named routes Demo',
-//     // "/"으로 named route와 함께 시작합니다. 본 예제에서는 FirstScreen 위젯에서 시작합니다.
-//     initialRoute: '/',
-//     routes: {
-//       '/': (context) => const Login1(),
-//       '/login1': (context) => const Login1(),
-//       '/login2': (context) => Login2(),
-//       '/signin1': (context) => Signin1(),
-//       '/signin2': (context) => Signin2(),
-//       '/signin3': (context) => Signin3(),
-//     },
-//   ));
-// }
