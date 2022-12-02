@@ -151,8 +151,9 @@ class Signin3_2 extends State<Signin3> {
                       password: UserAuthInfoApi.userAuthInfo?.password,
                     );
                     String url = baseUrl + 'user/signup';
-                    UserResponse userResponse =
-                        await SignUp(url, signupRequest);
+
+                    UserResponse userResponse = await SignUp(url, signupRequest);
+
                     // home으로 이동
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: ((context) => HomeScreen())));
