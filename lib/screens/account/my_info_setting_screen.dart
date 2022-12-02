@@ -146,7 +146,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                     setState(() {
                       if (nicknameEditisEnable) {
                         UserAttributeApi.resetNickname(nicknameEditController.text);
-                        print('New nickname : ${nicknameEditController.text}');
                         nicknameEditisEnable = false;
                       } else {
                         nicknameEditisEnable = true;
@@ -242,7 +241,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                       if (fieldEditisEnable) {
                         // if field String is enable.
                         UserAttributeApi.resetField(fieldEditController.text);
-                        print('New field : ${fieldEditController.text}');
                         fieldEditisEnable = false;
                       } else {
                         fieldEditisEnable = true;
