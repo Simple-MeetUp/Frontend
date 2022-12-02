@@ -152,11 +152,11 @@ class Signin3_2 extends State<Signin3> {
                     );
                     String url = baseUrl + 'user/signup';
 
+                    // UserResponse로 password 변수 받을 수가 없음
                     UserResponse userResponse = await SignUp(url, signupRequest);
 
                     // home으로 이동
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: ((context) => HomeScreen())));
+                    Navigator.pushNamed(context, '/Home');
                   },
                   child: const Text('계속하기'),
                 ),

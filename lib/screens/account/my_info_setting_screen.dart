@@ -24,6 +24,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   var contestList = List<String>.filled(10, 'con', growable: true);
   var contestsLabelList = List<String>.filled(10, 'label', growable: true);
   var contestsLabelNumList = List<String>.filled(10, '1', growable: true);
+
+  final validNickname = RegExp('[A-Za-z][A-Za-z0-9_]{3,29}');
   TextEditingController nicknameEditController = TextEditingController();
   TextEditingController fieldEditController = TextEditingController();
 
@@ -59,15 +61,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
             ),
             onPressed: () {
               // make new attr instance
-              UserAttributeApi.setUserAttribute(UserAttribute(
-                  nickname: nicknameEditController.text,
-                  email: userAttribute!.email,
-                  name: userAttribute!.name,
-                  field: fieldEditController.text,
-                  gender: userAttribute!.gender,
-                  birthDate: userAttribute!.birthDate));
-
-              userAttribute = UserAttributeApi.getUserAttribute();
+              UserAttributeApi.resetNickname(nicknameEditController.text);
+              UserAttributeApi.resetField(fieldEditController.text);
               // call api to apply updated attrs to userinfo
 
               // go to myinfo
@@ -135,7 +130,18 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                       left: MediaQuery.of(context).size.width * 0.052)),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
-                child: TextField(
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '입력칸을 채워주세요.';
+                    }
+                    if (!validNickname.hasMatch(nicknameEditController.text)) {
+                      return '잘못된 닉네임 형식입니다. 최소 4자리를 입력해주세요.';
+                    }
+                    return null;
+                  },
+                  initialValue: userAttribute.nickname,
                   controller: nicknameEditController,
                   enabled: nicknameEditisEnable,
                 ),
@@ -212,7 +218,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   )), //'닉네임:'
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
-                child: TextField(
+                child: TextFormField(
+                  initialValue: userAttribute.field,
                   controller: fieldEditController,
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
