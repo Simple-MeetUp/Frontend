@@ -25,6 +25,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   var contestsLabelList = List<String>.filled(10, 'label', growable: true);
   var contestsLabelNumList = List<String>.filled(10, '1', growable: true);
   TextEditingController nicknameEditController = TextEditingController();
+  TextEditingController fieldEditController = TextEditingController();
 
   bool nicknameEditisEnable = true;
   bool fieldEditisEnable = true;
@@ -62,7 +63,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   nickname: nicknameEditController.text,
                   email: userAttribute!.email,
                   name: userAttribute!.name,
-                  field: userAttribute!.field,
+                  field: fieldEditController.text,
                   gender: userAttribute!.gender,
                   birthDate: userAttribute!.birthDate));
 
@@ -144,6 +145,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   onPressed: () {
                     setState(() {
                       if (nicknameEditisEnable) {
+                        UserAttributeApi.resetNickname(nicknameEditController.text);
+                        print('New nickname : ${nicknameEditController.text}');
                         nicknameEditisEnable = false;
                       } else {
                         nicknameEditisEnable = true;
@@ -211,6 +214,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: TextField(
+                  controller: fieldEditController,
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
                     List<String> applyFieldItems =
@@ -236,6 +240,9 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   onPressed: () {
                     setState(() {
                       if (fieldEditisEnable) {
+                        // if field String is enable.
+                        UserAttributeApi.resetField(fieldEditController.text);
+                        print('New field : ${fieldEditController.text}');
                         fieldEditisEnable = false;
                       } else {
                         fieldEditisEnable = true;

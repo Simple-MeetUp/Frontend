@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../constants.dart';
+import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
 import 'signin3.dart';
 
 class Signin2 extends StatelessWidget {
@@ -120,7 +121,9 @@ class Signin2 extends StatelessWidget {
                   ),
                   onPressed: () {
                     if (formGlobalKey.currentState!.validate()) {
-                      // 닉네임 이름 서버에 넘기고
+                      // 닉네임 이름 수정 후
+                      UserAttributeApi.resetNickname(nicknameInputController.text);
+                      UserAttributeApi.resetName(nameInputController.text);
                       // 화면 전환
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: ((context) => Signin3())));

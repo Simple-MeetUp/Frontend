@@ -1,9 +1,9 @@
 class UserAttribute {
   // UserAuthInfo의 email 필드와 동일한 값
-  final String email;
-  final String name;
-  final bool gender;
-  final DateTime birthDate;
+  String email;
+  String name;
+  bool gender;
+  DateTime birthDate;
   String nickname;
   String field;
 

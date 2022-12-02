@@ -1,6 +1,12 @@
+import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
+
+import 'package:dawu_start_from_homescreen/http/dto.dart';
+import 'package:dawu_start_from_homescreen/http/request.dart';
+import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
+import 'package:intl/intl.dart';
 import '../../constants.dart';
 
 class Signin3 extends StatefulWidget {
@@ -10,9 +16,12 @@ class Signin3 extends StatefulWidget {
 
 class Signin3_2 extends State<Signin3> {
   bool isSwitched = false;
+  String gender_to_string(bool gender) {
+    return gender ? "MALE" : "FEMALE";
+  }
   final formGlobalKey = GlobalKey<FormState>();
   final validBirth =
-      RegExp('[0-9]{4}/(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])');
+      RegExp('[0-9]{4}-(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])');
   TextEditingController birthInputController = TextEditingController();
 
   @override
@@ -111,7 +120,7 @@ class Signin3_2 extends State<Signin3> {
                   border: OutlineInputBorder(),
                   filled: true,
                   fillColor: Colors.white,
-                  labelText: '2022/11/22',
+                  labelText: '입력형식 : 2022-11-22',
                 ),
                 controller: birthInputController,
                 style: const TextStyle(
@@ -128,8 +137,22 @@ class Signin3_2 extends State<Signin3> {
                     textStyle: const TextStyle(fontSize: 20),
                     backgroundColor: defaultColor,
                   ),
-                  onPressed: () {
+                  onPressed: () async{
                     // 성별, 생년월일 전달 후
+                    UserAttributeApi.resetGender(isSwitched);
+                    UserAttributeApi.resetBirthdate(DateTime.parse(birthInputController.text));
+                    // 서버에 signin 요청 후
+                    SignUpRequest signupRequest = SignUpRequest(
+                      birthday: DateFormat('yyyy-MM-dd').format(UserAttributeApi.userAttribute!.birthDate),
+                      email: UserAuthInfoApi.userAuthInfo?.email,
+                      gender: gender_to_string(UserAttributeApi.userAttribute!.gender),
+                      name: UserAttributeApi.userAttribute?.name,
+                      nickname: UserAttributeApi.userAttribute?.nickname,
+                      password: UserAuthInfoApi.userAuthInfo?.password,
+                    );
+                    String url = baseUrl + 'user/signup';
+                    UserResponse userResponse =
+                        await SignUp(url, signupRequest);
                     // home으로 이동
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: ((context) => HomeScreen())));

@@ -160,35 +160,35 @@ class LoginScreen_ extends State<LoginScreen> {
                     }
                   }
 
-                  // temp -> to be deleted. just debuging
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: ((context) => HomeScreen())));
+                  // // temp -> to be deleted. just debuging
+                  // Navigator.of(context).pushReplacement(
+                  //     MaterialPageRoute(builder: ((context) => HomeScreen())));
 
                   // 틀리면 error 문구 출력
-                  // showDialog(
-                  //     context: context,
-                  //     builder: ((context) {
-                  //       return AlertDialog(
-                  //         title: const Text("로그인"),
-                  //         content: SizedBox(
-                  //             height: 50,
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: const [
-                  //                 Text("이메일 또는 비밀번호가 다릅니다."),
-                  //                 Padding(padding: EdgeInsets.all(5)),
-                  //                 Text("확인 후 다시 시도하세요."),
-                  //               ],
-                  //             )),
-                  //         actions: [
-                  //           TextButton(
-                  //               onPressed: (() {
-                  //                 Navigator.pop(context);
-                  //               }),
-                  //               child: const Text("확인"))
-                  //         ],
-                  //       );
-                  //     }));
+                  showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          title: const Text("로그인"),
+                          content: SizedBox(
+                              height: 50,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text("이메일 또는 비밀번호가 다릅니다."),
+                                  Padding(padding: EdgeInsets.all(5)),
+                                  Text("확인 후 다시 시도하세요."),
+                                ],
+                              )),
+                          actions: [
+                            TextButton(
+                                onPressed: (() {
+                                  Navigator.pop(context);
+                                }),
+                                child: const Text("확인"))
+                          ],
+                        );
+                      }));
                 },
                 child: const Text('로그인'),
               ),

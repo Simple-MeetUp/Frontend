@@ -12,4 +12,10 @@ class UserAuthInfoApi {
     // TODO: call API post method
     userAuthInfo = newUserAuthInfo;
   }
+  static void resetEmail(String Email){
+    userAuthInfo?.email = Email;
+  }
+  static void resetPW(String PW){
+    userAuthInfo?.password = PW;
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
 import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/http/request.dart';
+import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
+import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
 import 'package:dawu_start_from_homescreen/screens/account/signin2.dart';
 import 'package:flutter/material.dart';
 
@@ -172,7 +174,10 @@ class Signin1 extends StatelessWidget {
                   ),
                   onPressed: () {
                     if (formGlobalKey.currentState!.validate()) {
-                      // 이메일 비밀번호 서버에 넘기고
+                      // 이메일 비밀번호 User 정보 수정 후
+                      UserAttributeApi.resetEmail(emailInputController.text);
+                      UserAuthInfoApi.resetEmail(emailInputController.text);
+                      UserAuthInfoApi.resetPW(pwInputController.text);
                       // 화면 전환
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: ((context) => Signin2())));
