@@ -141,6 +141,7 @@ class Signin3_2 extends State<Signin3> {
                     // 성별, 생년월일 전달 후
                     UserAttributeApi.resetGender(isSwitched);
                     UserAttributeApi.resetBirthdate(DateTime.parse(birthInputController.text));
+
                     // 서버에 signin 요청 후
                     SignUpRequest signupRequest = SignUpRequest(
                       birthday: DateFormat('yyyy-MM-dd').format(UserAttributeApi.userAttribute!.birthDate),
@@ -150,6 +151,7 @@ class Signin3_2 extends State<Signin3> {
                       nickname: UserAttributeApi.userAttribute?.nickname,
                       password: UserAuthInfoApi.userAuthInfo?.password,
                     );
+
                     String url = baseUrl + 'user/signup';
 
                     // UserResponse로 password 변수 받을 수가 없음
