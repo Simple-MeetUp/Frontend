@@ -1,7 +1,5 @@
 import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
-import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-
 
 import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/http/request.dart';
@@ -19,6 +17,7 @@ class Signin3_2 extends State<Signin3> {
   String gender_to_string(bool gender) {
     return gender ? "MALE" : "FEMALE";
   }
+
   final formGlobalKey = GlobalKey<FormState>();
   final validBirth =
       RegExp('[0-9]{4}-(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])');
@@ -137,25 +136,37 @@ class Signin3_2 extends State<Signin3> {
                     textStyle: const TextStyle(fontSize: 20),
                     backgroundColor: defaultColor,
                   ),
-                  onPressed: () async{
+                  onPressed: () async {
+                    UserAttributeApi.show(); // debug
+
                     // 성별, 생년월일 전달 후
                     UserAttributeApi.resetGender(isSwitched);
-                    UserAttributeApi.resetBirthdate(DateTime.parse(birthInputController.text));
+                    UserAttributeApi.resetBirthdate(
+                        DateTime.parse(birthInputController.text));
 
                     // 서버에 signin 요청 후
                     SignUpRequest signupRequest = SignUpRequest(
-                      birthday: DateFormat('yyyy-MM-dd').format(UserAttributeApi.userAttribute!.birthDate),
+                      birthday: DateFormat('yyyy-MM-dd')
+                          .format(UserAttributeApi.userAttribute!.birthDate),
                       email: UserAuthInfoApi.userAuthInfo?.email,
-                      gender: gender_to_string(UserAttributeApi.userAttribute!.gender),
+                      gender: gender_to_string(
+                          UserAttributeApi.userAttribute!.gender),
                       name: UserAttributeApi.userAttribute?.name,
                       nickname: UserAttributeApi.userAttribute?.nickname,
                       password: UserAuthInfoApi.userAuthInfo?.password,
                     );
 
-                    String url = baseUrl + 'user/signup';
+                    print("[Debug] ${signupRequest.birthday}"); // debug
+                    // signupRequest.birthday =
+                    //     "2022-12-02T06:35:18.522Z"; // debug
+
+                    String url = '${baseUrl}user/signup';
 
                     // UserResponse로 password 변수 받을 수가 없음
-                    UserResponse userResponse = await SignUp(url, signupRequest);
+                    UserResponse userResponse =
+                        await SignUp(url, signupRequest);
+
+                    print("[Debug] done?"); // debug
 
                     // home으로 이동
                     Navigator.pushNamed(context, '/Home');

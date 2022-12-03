@@ -16,28 +16,38 @@ class UserAttributeApi {
     return userAttribute;
   }
 
-
-
   static void setUserAttribute(UserAttribute newUserAttribute) {
     // TODO: api call post method
     userAttribute = newUserAttribute;
   }
-  static void resetEmail(String Email){
-    userAttribute?.email = Email;
+
+  static void resetEmail(String email) {
+    userAttribute?.email = email;
   }
-  static void resetNickname(String Nickname){
-    userAttribute?.nickname = Nickname;
+
+  static void resetNickname(String nickname) {
+    userAttribute?.nickname = nickname;
   }
-  static void resetName(String Name){
-    userAttribute?.name = Name;
+
+  static void resetName(String name) {
+    userAttribute?.name = name;
   }
-  static void resetGender(bool Gender){
-    userAttribute?.gender = Gender;
+
+  static void resetGender(bool gender) {
+    userAttribute?.gender = gender;
   }
-  static void resetBirthdate(DateTime Birthdate){
-    userAttribute?.birthDate = Birthdate;
+
+  static void resetBirthdate(DateTime birthdate) {
+    userAttribute?.birthDate = birthdate;
   }
-  static void resetField(String Field){
-    userAttribute?.field = Field;
+
+  static void resetField(String field) {
+    userAttribute?.field = field;
+  }
+
+  @override
+  static void show() {
+    print(
+        "[Debug]\nemail: ${userAttribute?.email}\nnickname: ${userAttribute?.nickname}\nname: ${userAttribute?.name}\ngender: ${userAttribute?.gender}\nbirthday: ${userAttribute?.birthDate}\nfield: ${userAttribute?.field}");
   }
 }

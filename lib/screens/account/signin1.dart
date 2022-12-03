@@ -17,7 +17,7 @@ class Signin1 extends StatelessWidget {
   TextEditingController pwInputController = TextEditingController();
   TextEditingController pwreInputController = TextEditingController();
   String vali = '';
-  final apiUrl = baseUrl + 'user/';
+  final apiUrl = '${baseUrl}user/';
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class Signin1 extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
                 child: TextFormField(
                   onEditingComplete: () async {
-                    String url = apiUrl + 'exist';
+                    String url = '${apiUrl}exist';
                     EmailRequest emailRequest =
                         EmailRequest(email: emailInputController.text);
                     StringResponse stringResponse =
@@ -104,7 +104,7 @@ class Signin1 extends StatelessWidget {
                     textAlign: TextAlign.left),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 10, right: 20),
+                padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -112,7 +112,7 @@ class Signin1 extends StatelessWidget {
                       return '입력칸을 채워주세요.';
                     }
                     if (!validPW.hasMatch(pwInputController.text)) {
-                      return '영문자,숫자,문자를 모두 포함한 최소 8자리 암호를 입력해주세요.';
+                      return '영문자, 숫자, 특수문자를 모두 포함한 최소 8자리 암호를 입력해주세요.';
                     }
                     return null;
                   },
@@ -137,12 +137,12 @@ class Signin1 extends StatelessWidget {
                     textAlign: TextAlign.left),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 10, right: 20),
+                padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     vali = value as String;
-                    if (value == null || value.isEmpty) {
+                    if (value.isEmpty) {
                       return '입력칸을 채워주세요.';
                     }
                     if (pwInputController.text.compareTo(vali) != 0) {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class SignUpRequest {
   String? birthday;
   String? email;
@@ -8,24 +10,25 @@ class SignUpRequest {
 
   SignUpRequest(
       {this.birthday,
-        this.email,
-        this.gender,
-        this.name,
-        this.nickname,
-        this.password});
+      this.email,
+      this.gender,
+      this.name,
+      this.nickname,
+      this.password});
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['birthday'] = this.birthday;
-    data['email'] = this.email;
-    data['gender'] = this.gender;
-    data['name'] = this.name;
-    data['nickname'] = this.nickname;
-    data['password'] = this.password;
-    return data;
+  String toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['birthday'] = birthday;
+    data['email'] = email;
+    data['gender'] = gender;
+    data['name'] = name;
+    data['nickname'] = nickname;
+    data['password'] = password;
+
+    print("[Debug] ${data.toString()}"); // debug
+    return json.encode(data); // json.encode 적용하여 최종적으로 String 형태로 반환
   }
 }
-
 
 class UserResponse {
   String? birthday;
@@ -38,12 +41,12 @@ class UserResponse {
 
   UserResponse(
       {this.birthday,
-        this.category,
-        this.email,
-        this.gender,
-        this.name,
-        this.nickname,
-        this.tokenResponse});
+      this.category,
+      this.email,
+      this.gender,
+      this.name,
+      this.nickname,
+      this.tokenResponse});
 
   UserResponse.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'];
@@ -53,7 +56,7 @@ class UserResponse {
     name = json['name'];
     nickname = json['nickname'];
     tokenResponse = json['tokenResponse'] != null
-        ? new TokenResponse.fromJson(json['tokenResponse'])
+        ? TokenResponse.fromJson(json['tokenResponse'])
         : null;
   }
 }
@@ -70,9 +73,9 @@ class TokenResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['accessToken'] = this.accessToken;
-    data['refreshToken'] = this.refreshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['accessToken'] = accessToken;
+    data['refreshToken'] = refreshToken;
     return data;
   }
 }
@@ -83,8 +86,8 @@ class EmailRequest {
   EmailRequest({this.email});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
     return data;
   }
 }
@@ -106,9 +109,9 @@ class LoginRequest {
   LoginRequest({this.email, this.password});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['password'] = this.password;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['password'] = password;
     return data;
   }
 }
@@ -128,16 +131,16 @@ class CompetitionResponse {
 
   CompetitionResponse(
       {this.activityDurationFrom,
-        this.activityDurationTo,
-        this.category,
-        this.competitionId,
-        this.contents,
-        this.enrollDurationFrom,
-        this.enrollDurationTo,
-        this.personnelLowerBound,
-        this.personnelUpperBound,
-        this.status,
-        this.title});
+      this.activityDurationTo,
+      this.category,
+      this.competitionId,
+      this.contents,
+      this.enrollDurationFrom,
+      this.enrollDurationTo,
+      this.personnelLowerBound,
+      this.personnelUpperBound,
+      this.status,
+      this.title});
 
   CompetitionResponse.fromJson(Map<String, dynamic> json) {
     activityDurationFrom = json['activityDurationFrom'];
@@ -184,26 +187,26 @@ class CompetitionRequest {
 
   CompetitionRequest(
       {this.activityDurationFrom,
-        this.activityDurationTo,
-        this.category,
-        this.contents,
-        this.enrollDurationFrom,
-        this.enrollDurationTo,
-        this.personnelLowerBound,
-        this.personnelUpperBound,
-        this.title});
+      this.activityDurationTo,
+      this.category,
+      this.contents,
+      this.enrollDurationFrom,
+      this.enrollDurationTo,
+      this.personnelLowerBound,
+      this.personnelUpperBound,
+      this.title});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['activityDurationFrom'] = this.activityDurationFrom;
-    data['activityDurationTo'] = this.activityDurationTo;
-    data['category'] = this.category;
-    data['contents'] = this.contents;
-    data['enrollDurationFrom'] = this.enrollDurationFrom;
-    data['enrollDurationTo'] = this.enrollDurationTo;
-    data['personnelLowerBound'] = this.personnelLowerBound;
-    data['personnelUpperBound'] = this.personnelUpperBound;
-    data['title'] = this.title;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['activityDurationFrom'] = activityDurationFrom;
+    data['activityDurationTo'] = activityDurationTo;
+    data['category'] = category;
+    data['contents'] = contents;
+    data['enrollDurationFrom'] = enrollDurationFrom;
+    data['enrollDurationTo'] = enrollDurationTo;
+    data['personnelLowerBound'] = personnelLowerBound;
+    data['personnelUpperBound'] = personnelUpperBound;
+    data['title'] = title;
     return data;
   }
 }
