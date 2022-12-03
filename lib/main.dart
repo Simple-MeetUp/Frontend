@@ -2,8 +2,10 @@ import 'package:dawu_start_from_homescreen/constants.dart';
 import 'package:dawu_start_from_homescreen/models/Contest.dart';
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
+import 'package:dawu_start_from_homescreen/models/user_auth_info.dart';
 import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
+import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
 import 'package:dawu_start_from_homescreen/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +50,8 @@ class MyApp extends StatelessWidget {
         Provider<List<Contest>>.value(
             value: ContestListApi.getContestList()), // for ContestList
         Provider<UserAttribute?>.value(
-            value: UserAttributeApi.getUserAttribute()), // for ContestList
+            value: UserAttributeApi.getUserAttribute()), // for ContestList,
+        Provider<UserAuthInfo?>.value(value: UserAuthInfoApi.getUserAuthInfo()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

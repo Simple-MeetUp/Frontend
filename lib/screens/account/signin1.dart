@@ -178,6 +178,9 @@ class Signin1 extends StatelessWidget {
                       UserAttributeApi.resetEmail(emailInputController.text);
                       UserAuthInfoApi.resetEmail(emailInputController.text);
                       UserAuthInfoApi.resetPW(pwInputController.text);
+
+                      UserAuthInfoApi.show(); // debug
+
                       // 화면 전환
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: ((context) => Signin2())));

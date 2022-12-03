@@ -26,8 +26,10 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   var contestsLabelNumList = List<String>.filled(10, '1', growable: true);
 
   final validNickname = RegExp('[A-Za-z][A-Za-z0-9_]{3,29}');
-  TextEditingController nicknameEditController = TextEditingController();
-  TextEditingController fieldEditController = TextEditingController();
+  TextEditingController nicknameEditController = TextEditingController(
+      text: UserAttributeApi.getUserAttribute()?.nickname ?? "");
+  TextEditingController fieldEditController = TextEditingController(
+      text: UserAttributeApi.getUserAttribute()?.field ?? "");
 
   bool nicknameEditisEnable = true;
   bool fieldEditisEnable = true;
@@ -81,7 +83,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                 padding: const EdgeInsets.only(
                     left: 50, top: 8, right: 8, bottom: 8),
                 child: Text(
-                  userAttribute!.name,
+                  userAttribute.name,
                   style: const TextStyle(
                       fontSize: 28.0,
                       color: Colors.black,
@@ -92,7 +94,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                 padding: const EdgeInsets.only(
                     left: 50, top: 8, right: 8, bottom: 8),
                 child: Text(
-                  DateFormat("yyyy/MM/dd").format(userAttribute!.birthDate),
+                  DateFormat("yyyy/MM/dd").format(userAttribute.birthDate),
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.black,
@@ -105,7 +107,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
             padding:
                 const EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
             child: Text(
-              userAttribute!.email,
+              userAttribute.email,
               style: const TextStyle(
                   fontSize: 20.0,
                   color: Colors.black,
@@ -141,7 +143,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                     }
                     return null;
                   },
-                  initialValue: userAttribute.nickname,
                   controller: nicknameEditController,
                   enabled: nicknameEditisEnable,
                 ),
@@ -151,7 +152,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   onPressed: () {
                     setState(() {
                       if (nicknameEditisEnable) {
-                        UserAttributeApi.resetNickname(nicknameEditController.text);
+                        UserAttributeApi.resetNickname(
+                            nicknameEditController.text);
                         nicknameEditisEnable = false;
                       } else {
                         nicknameEditisEnable = true;
@@ -219,7 +221,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: TextFormField(
-                  initialValue: userAttribute.field,
                   controller: fieldEditController,
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
@@ -233,10 +234,10 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                     userAttribute!.field = "";
                     for (int i = 0; i < applyFieldItems.length; i++) {
                       if (i == applyFieldItems.length - 1) {
-                        userAttribute!.field += applyFieldItems[i];
+                        userAttribute.field += applyFieldItems[i];
                         break;
                       }
-                      userAttribute!.field += "${applyFieldItems[i]} ";
+                      userAttribute.field += "${applyFieldItems[i]} ";
                     }
                   },
                 ),

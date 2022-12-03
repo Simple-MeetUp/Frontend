@@ -1,4 +1,5 @@
 import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
+import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dawu_start_from_homescreen/http/dto.dart';
@@ -157,8 +158,6 @@ class Signin3_2 extends State<Signin3> {
                     );
 
                     print("[Debug] ${signupRequest.birthday}"); // debug
-                    // signupRequest.birthday =
-                    //     "2022-12-02T06:35:18.522Z"; // debug
 
                     String url = '${baseUrl}user/signup';
 
@@ -166,10 +165,11 @@ class Signin3_2 extends State<Signin3> {
                     UserResponse userResponse =
                         await SignUp(url, signupRequest);
 
-                    print("[Debug] done?"); // debug
-
                     // home으로 이동
-                    Navigator.pushNamed(context, '/Home');
+                    Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(builder: ((context) {
+                      return HomeScreen();
+                    })));
                   },
                   child: const Text('계속하기'),
                 ),

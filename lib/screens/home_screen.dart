@@ -30,22 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Text(
-                "전체목록",
-                style: TextStyle(fontSize: 14),
-              ),
-              Checkbox(
-                  value: isChecked,
-                  onChanged: ((value) {
-                    setState(() {
-                      isChecked = value;
-                    });
-                  }))
-            ],
-          ),
           // https://stackoverflow.com/questions/53974288/flutter-listview-bottom-overflow
           Expanded(
               child: ListView.builder(
