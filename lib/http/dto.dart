@@ -116,6 +116,20 @@ class LoginRequest {
   }
 }
 
+class ModifyRequest {
+  String? nickname;
+  String? category;
+
+  ModifyRequest({this.nickname, this.category});
+
+  String toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['nickname'] = nickname;
+    data['category'] = category;
+    return jsonEncode(data);
+  }
+}
+
 class CompetitionResponse {
   String? activityDurationFrom;
   String? activityDurationTo;

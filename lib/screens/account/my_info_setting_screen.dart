@@ -1,11 +1,15 @@
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
+import 'package:dawu_start_from_homescreen/screens/account/my_info_screen.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_list_screen.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
+import '../../http/dto.dart';
+import '../../http/request.dart';
 import '../../models/current_index.dart';
 import '../../providers/field_list_api.dart';
 
@@ -34,6 +38,23 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   bool nicknameEditisEnable = true;
   bool fieldEditisEnable = true;
 
+  void showModifyErrorDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: ((context) {
+          return AlertDialog(
+            title: const Text("내 정보"),
+            content: const Text("닉네임 또는 분야가 잘못 설정되었습니다."),
+            actions: [
+              TextButton(
+                  onPressed: (() {
+                    Navigator.pop(context);
+                  }),
+                  child: const Text("확인"))
+            ],
+          );
+        }));
+  }
   @override
   Widget build(BuildContext context) {
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
@@ -61,14 +82,27 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               Icons.check,
               color: Colors.white,
             ),
-            onPressed: () {
+            onPressed: () async{
               // make new attr instance
               UserAttributeApi.resetNickname(nicknameEditController.text);
               UserAttributeApi.resetField(fieldEditController.text);
+
               // call api to apply updated attrs to userinfo
+              ModifyRequest modifyRequest = ModifyRequest(
+                nickname: nicknameEditController.text,
+                category: fieldEditController.text,
+              );
+              String url = '${baseUrl}user/modify';
 
               // go to myinfo
-              Navigator.of(context).pop();
+              await Modify(url, modifyRequest).then((value) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        builder: ((context) => MyInfoScreen())));
+              },onError: (err) {
+                print("[debug] ${err.toString()}");
+                showModifyErrorDialog(context);
+              });
             },
           )
         ],
