@@ -1,9 +1,13 @@
+import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_register_complete_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../constants.dart';
+import '../http/request.dart';
+import '../models/ContestInfo.dart';
 import '../providers/field_list_api.dart';
 import '../models/Contest.dart';
 import '../models/current_index.dart';
@@ -45,11 +49,6 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
   DateTime? registerDuePeriod;
 
   String? field = ""; // 분야. 공백 단위로 각 분야 구분.
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future<DateTime> _pickDateDialog(BuildContext context, int index) async {
     DateTime? pickedDate;
@@ -122,6 +121,25 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
     return pickedDate ?? DateTime.now();
   }
 
+  void showDialogOnFailedToSubmit(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("오류"),
+          content: const Text("서버 요청 중 오류가 발생했습니다.\n잠시 후 다시 시도하세요."),
+          actions: [
+            TextButton(
+                onPressed: (() {
+                  Navigator.pop(context);
+                }),
+                child: const Text("확인"))
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // 현재 서버에 저장된 분야 목록 -> 서버에서 가져와야 할 항목
@@ -137,13 +155,9 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
     ];
 
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
+    final TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
 
-    contest = ContestListApi.getContest(0); // temp. to be deleted
-
-    @override
-    void initState() {
-      super.initState();
-    }
+    print('[debug] accessToken = ${tokenResponse.accessToken}');
 
     return Scaffold(
       appBar: AppBar(
@@ -277,9 +291,6 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                           subtitle: subtitle ?? "",
                           contestInfo: contestInfo);
 
-                      //
-                      // TO DO : Contest, ContestInfo 객체를 API 호출로 넘기기
-                      //
                       ContestListApi.addContest(contest);
 
                       showDialog(
@@ -290,14 +301,24 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                               content: const Text("모든 항목을 입력하셨습니다."),
                               actions: [
                                 TextButton(
-                                    onPressed: (() {
-                                      Navigator.pop(context);
+                                    onPressed: (() async {
+                                      String url = '${baseUrl}competition/make';
 
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: ((context) {
-                                        return ContestRegisterCompleteScreen();
-                                      })));
+                                      await Submit(url, contest, contestInfo,
+                                              tokenResponse.accessToken)
+                                          .then((value) {
+                                        Navigator.pop(context);
+
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: ((context) {
+                                          return ContestRegisterCompleteScreen();
+                                        })));
+                                      }, onError: (err) {
+                                        showDialogOnFailedToSubmit(context);
+                                      });
+
+                                      return;
                                     }),
                                     child: const Text("확인"))
                               ],
@@ -495,19 +516,6 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
                   duplicateFieldItems = duplicateFieldItems
                       .where((item) => seen.add(item))
                       .toList();
-
-                  // 중복되는 항목을 오류 메시지에 포함하기
-                  // if (duplicateFieldItems.isNotEmpty) {
-                  //   alertMessage.value += " (";
-                  //   for (int i = 0; i < duplicateFieldItems.length; i++) {
-                  //     if (i == duplicateFieldItems.length - 1) {
-                  //       alertMessage.value += duplicateFieldItems[i];
-                  //     } else {
-                  //       alertMessage.value += "${duplicateFieldItems[i]}, ";
-                  //     }
-                  //   }
-                  //   alertMessage.value += ")";
-                  // }
                 },
                 style: const TextStyle(fontSize: 16),
                 decoration: const InputDecoration(

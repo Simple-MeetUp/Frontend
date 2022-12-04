@@ -188,7 +188,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
                   },
                   style: const TextStyle(fontSize: 18),
                   decoration: const InputDecoration(
-                    hintText: "입력 예시) 모바일앱 백엔드",
+                    hintText: "입력 예시) 모바일 백엔드",
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(2)),
                       borderSide:

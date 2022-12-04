@@ -1,5 +1,7 @@
 import 'package:dawu_start_from_homescreen/models/Contest.dart';
 
+import '../models/ContestInfo.dart';
+
 class ContestListApi {
   static Contest dummyItem = Contest(
       id: -1,
@@ -22,10 +24,10 @@ class ContestListApi {
         thumbnail:
             "https://scene7.samsclub.com/is/image/samsclub/0008687619434_B?wid=400&hei=400",
         title: "대학생 프로그래밍 경진대회",
-        subtitle: "백엔드 모바일앱",
+        subtitle: "백엔드 모바일",
         contestInfo: ContestInfo(
             description: "창의적 아이디어를 활용한 앱 개발 경진대회 참여자를 모집합니다.",
-            field: "백엔드 모바일앱",
+            field: "백엔드 모바일",
             minPeople: 2,
             maxPeople: 4,
             activityStartPeriod: DateTime(2022, 11, 22),

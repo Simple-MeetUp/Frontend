@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dawu_start_from_homescreen/models/Contest.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import '../models/ContestInfo.dart';
 import 'dto.dart';
 
 Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
@@ -100,16 +103,61 @@ Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
   }
 }
 
-Future<CompetitionResponse> Submit(String uri, String mission) async {
-  final response = await http.post(
-    Uri(path: uri, queryParameters: <String, String>{
-      'mission': mission,
-    }),
-  );
+Future<CompetitionResponse?> Submit(String uri, Contest contest,
+    ContestInfo contestInfo, String? accessToken) async {
+  print('[debug] ${json.encode(<String, dynamic>{
+        "activityDurationFrom": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.activityStartPeriod)
+            .toString(),
+        "activityDurationTo": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.activityDuePeriod)
+            .toString(),
+        "categories": contestInfo.field.split(" "),
+        "contents": contestInfo.description,
+        "enrollDurationFrom": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.registerStartPeriod)
+            .toString(),
+        "enrollDurationTo": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.registerDuePeriod)
+            .toString(),
+        "personnelLowerBound": contestInfo.minPeople,
+        "personnelUpperBound": contestInfo.maxPeople,
+        "title": contest.title
+      })}');
+
+  final Uri newUri = Uri.parse(uri);
+
+  final response = await http.post(newUri,
+      headers: {
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer ${accessToken!}"
+      },
+      body: json.encode(<String, dynamic>{
+        "activityDurationFrom": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.activityStartPeriod)
+            .toString(),
+        "activityDurationTo": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.activityDuePeriod)
+            .toString(),
+        "categories": contestInfo.field.split(" "),
+        "contents": contestInfo.description,
+        "enrollDurationFrom": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.registerStartPeriod)
+            .toString(),
+        "enrollDurationTo": DateFormat("yyyy-MM-dd")
+            .format(contestInfo.registerDuePeriod)
+            .toString(),
+        "personnelLowerBound": contestInfo.minPeople,
+        "personnelUpperBound": contestInfo.maxPeople,
+        "title": contest.title
+      }));
   if (response.statusCode == 200) {
+    print("[debug] submitting successful");
     return CompetitionResponse.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('Failed to post login');
+    print("[debug] ${response.statusCode} error on submitting");
+    return Future.error(
+        '${json.decode(response.body)['status']}: Failed to submit contest');
   }
 }
 
