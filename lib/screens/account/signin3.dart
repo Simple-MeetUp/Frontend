@@ -27,7 +27,8 @@ class Signin3_2 extends State<Signin3> {
 
   @override
   Widget build(BuildContext context) {
-    TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
+
     return MaterialApp(
         home: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -159,17 +160,18 @@ class Signin3_2 extends State<Signin3> {
                       password: UserAuthInfoApi.userAuthInfo?.password,
                     );
 
-                    print("[Debug] ${signupRequest.birthday}"); // debug
-
                     String url = '${baseUrl}user/signup';
 
                     // UserResponse로 password 변수 받을 수가 없음
                     await SignUp(url, signupRequest).then((value) {
-                      tokenResponse = value.tokenResponse;
+                      tokenResponse.accessToken =
+                          value.tokenResponse?.accessToken;
+                      tokenResponse.refreshToken =
+                          value.tokenResponse?.refreshToken;
+
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) => HomeScreen())));
                     }, onError: (err) {
-                      print("[debug] ${err.toString()}");
                       showDialog(
                           context: context,
                           builder: ((context) {

@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'dto.dart';
 
 Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
-  print("[Debug] before response"); // debug
   final response = await http.post(
     Uri.parse(uri),
     headers: <String, String>{
@@ -13,7 +12,6 @@ Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
     },
     body: signUpRequest.toJson(),
   );
-  print("[Debug] after response"); // debug
   if (response.statusCode == 200) {
     return UserResponse.fromJson(jsonDecode(response.body));
   } else {
@@ -40,13 +38,13 @@ Future<UserResponse> Login(String uri, LoginRequest loginRequest) async {
   }
 }
 
-Future<UserResponse> Modify(String uri, ModifyRequest modifyRequest, String? accessToken) async {
-  print('[debug] token : ${accessToken ?? "token is null"}');
+Future<UserResponse> Modify(
+    String uri, ModifyRequest modifyRequest, String? accessToken) async {
   final response = await http.post(
     Uri.parse(uri),
     headers: <String, String>{
       'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: "Bearer " + accessToken!
+      HttpHeaders.authorizationHeader: "Bearer ${accessToken!}"
     },
     body: modifyRequest.toJson(),
   );

@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
         Provider<UserAttribute?>.value(
             value: UserAttributeApi.getUserAttribute()), // for ContestList,
         Provider<UserAuthInfo?>.value(value: UserAuthInfoApi.getUserAuthInfo()),
-        Provider<TokenResponse?>.value(value: null),
+        Provider<TokenResponse>.value(
+            value: TokenResponse("", accessToken: "", refreshToken: "")),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

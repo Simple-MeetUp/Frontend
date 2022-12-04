@@ -25,7 +25,6 @@ class SignUpRequest {
     data['nickname'] = nickname;
     data['password'] = password;
 
-    print("[Debug] ${data.toString()}"); // debug
     return json.encode(data); // json.encode 적용하여 최종적으로 String 형태로 반환
   }
 }
@@ -65,7 +64,7 @@ class TokenResponse {
   String? accessToken;
   String? refreshToken;
 
-  TokenResponse({this.accessToken, this.refreshToken});
+  TokenResponse(String s, {this.accessToken, this.refreshToken});
 
   TokenResponse.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];

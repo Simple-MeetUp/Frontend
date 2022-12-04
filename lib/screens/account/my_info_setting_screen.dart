@@ -55,9 +55,10 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           );
         }));
   }
+
   @override
   Widget build(BuildContext context) {
-    TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
@@ -68,6 +69,10 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
         field: "",
         gender: true,
         birthDate: DateTime(2022));
+
+    // debug
+    print("[debug] accessToken: ${tokenResponse.accessToken}");
+    print("[debug] refreshToken: ${tokenResponse.refreshToken}");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -83,7 +88,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               Icons.check,
               color: Colors.white,
             ),
-            onPressed: () async{
+            onPressed: () async {
               // make new attr instance
               UserAttributeApi.resetNickname(nicknameEditController.text);
               UserAttributeApi.resetField(fieldEditController.text);
@@ -96,13 +101,11 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               String url = '${baseUrl}user/modify';
 
               // go to myinfo
-              print('[debug] token : ${tokenResponse?.accessToken}');
-              await Modify(url, modifyRequest,tokenResponse?.accessToken).then((value) {
+              await Modify(url, modifyRequest, tokenResponse.accessToken).then(
+                  (value) {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                        builder: ((context) => MyInfoScreen())));
-              },onError: (err) {
-                print("[debug] ${err.toString()}");
+                    MaterialPageRoute(builder: ((context) => MyInfoScreen())));
+              }, onError: (err) {
                 showModifyErrorDialog(context);
               });
             },

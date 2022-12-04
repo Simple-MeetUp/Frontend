@@ -40,7 +40,7 @@ class LoginScreen_ extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
 
     return MaterialApp(
         home: Scaffold(
@@ -175,20 +175,15 @@ class LoginScreen_ extends State<LoginScreen> {
                         String url = '${baseUrl}user/login';
 
                         await Login(url, loginRequest).then((value) {
-                          print("[debug] ${tokenResponse ?? 'empty'}");
-
-                          tokenResponse = value.tokenResponse;
-
-                          if (tokenResponse != null) {
-                            print("[debug] ${tokenResponse?.accessToken}");
-                            print("[debug] ${tokenResponse?.refreshToken}");
-                          }
+                          tokenResponse.accessToken =
+                              value.tokenResponse?.accessToken;
+                          tokenResponse.refreshToken =
+                              value.tokenResponse?.refreshToken;
 
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: ((context) => HomeScreen())));
                         }, onError: (err) {
-                          print("[debug] ${err.toString()}");
                           showLoginErrorDialog(context);
                         });
                       } else {

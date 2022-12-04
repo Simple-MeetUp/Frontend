@@ -1,6 +1,6 @@
-import 'package:dawu_start_from_homescreen/models/current_index.dart';
 import 'package:dawu_start_from_homescreen/screens/account/my_info_screen.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_list_screen.dart';
+import 'package:dawu_start_from_homescreen/models/current_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,10 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
-    print('[debug] token : ${tokenResponse?.accessToken}');
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     final List<Contest> contestList = Provider.of<List<Contest>>(context);
+
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context); // debug
+    print("[debug] accessToken: ${tokenResponse.accessToken}");
+    print("[debug] refreshToken: ${tokenResponse.refreshToken}");
 
     return Scaffold(
       appBar: AppBar(
