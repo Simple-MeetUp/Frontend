@@ -6,6 +6,7 @@ import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/http/request.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../constants.dart';
 
 class Signin3 extends StatefulWidget {
@@ -26,6 +27,7 @@ class Signin3_2 extends State<Signin3> {
 
   @override
   Widget build(BuildContext context) {
+    TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
     return MaterialApp(
         home: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -163,6 +165,7 @@ class Signin3_2 extends State<Signin3> {
 
                     // UserResponse로 password 변수 받을 수가 없음
                     await SignUp(url, signupRequest).then((value) {
+                      tokenResponse = value.tokenResponse;
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) => HomeScreen())));
                     }, onError: (err) {

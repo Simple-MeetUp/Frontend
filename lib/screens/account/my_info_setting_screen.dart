@@ -57,6 +57,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
@@ -95,7 +96,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               String url = '${baseUrl}user/modify';
 
               // go to myinfo
-              await Modify(url, modifyRequest).then((value) {
+              print('[debug] token : ${tokenResponse?.accessToken}');
+              await Modify(url, modifyRequest,tokenResponse?.accessToken).then((value) {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                         builder: ((context) => MyInfoScreen())));

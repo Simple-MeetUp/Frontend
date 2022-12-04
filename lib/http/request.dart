@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'dto.dart';
@@ -39,11 +40,13 @@ Future<UserResponse> Login(String uri, LoginRequest loginRequest) async {
   }
 }
 
-Future<UserResponse> Modify(String uri, ModifyRequest modifyRequest) async {
+Future<UserResponse> Modify(String uri, ModifyRequest modifyRequest, String? accessToken) async {
+  print('[debug] token : ${accessToken ?? "token is null"}');
   final response = await http.post(
     Uri.parse(uri),
     headers: <String, String>{
       'Content-Type': 'application/json',
+      HttpHeaders.authorizationHeader: "Bearer " + accessToken!
     },
     body: modifyRequest.toJson(),
   );

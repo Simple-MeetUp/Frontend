@@ -4,6 +4,7 @@ import 'package:dawu_start_from_homescreen/screens/contest_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../http/dto.dart';
 import '../models/Contest.dart';
 import 'components/contest_tile.dart';
 
@@ -19,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
+    print('[debug] token : ${tokenResponse?.accessToken}');
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     final List<Contest> contestList = Provider.of<List<Contest>>(context);
 
