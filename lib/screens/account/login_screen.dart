@@ -19,6 +19,24 @@ class LoginScreen_ extends State<LoginScreen> {
   TextEditingController emailInputController = TextEditingController();
   TextEditingController PWInputController = TextEditingController();
 
+  void showLoginErrorDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: ((context) {
+          return AlertDialog(
+            title: const Text("로그인"),
+            content: const Text("이메일 또는 비밀번호가 올바르지 않습니다."),
+            actions: [
+              TextButton(
+                  onPressed: (() {
+                    Navigator.pop(context);
+                  }),
+                  child: const Text("확인"))
+            ],
+          );
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -151,40 +169,25 @@ class LoginScreen_ extends State<LoginScreen> {
                         LoginRequest loginRequest = LoginRequest(
                             email: emailInputController.text,
                             password: PWInputController.text);
-                        String url = baseUrl + 'user/login';
-                        UserResponse userResponse =
-                            await Login(url, loginRequest);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: ((context) => HomeScreen())));
-                      }
-                    }
-                  }
+                        String url = '${baseUrl}user/login';
 
-                  // 틀리면 error 문구 출력
-                  showDialog(
-                      context: context,
-                      builder: ((context) {
-                        return AlertDialog(
-                          title: const Expanded(child: Text("로그인")),
-                          content: SizedBox(
-                              height: 50,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Expanded(child: Text("이메일 또는 비밀번호가 다릅니다.")),
-                                  Padding(padding: EdgeInsets.all(5)),
-                                  Expanded(child: Text("확인 후 다시 시도하세요.")),
-                                ],
-                              )),
-                          actions: [
-                            TextButton(
-                                onPressed: (() {
-                                  Navigator.pop(context);
-                                }),
-                                child: const Text("확인"))
-                          ],
-                        );
-                      }));
+                        await Login(url, loginRequest).then((value) {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: ((context) => HomeScreen())));
+                        }, onError: (err) {
+                          print("[debug] ${err.toString()}");
+                          showLoginErrorDialog(context);
+                        });
+                      } else {
+                        showLoginErrorDialog(context);
+                      }
+                    } else {
+                      showLoginErrorDialog(context);
+                    }
+                  } else {
+                    showLoginErrorDialog(context);
+                  }
                 },
                 child: const Text('로그인'),
               ),

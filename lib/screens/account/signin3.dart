@@ -162,14 +162,28 @@ class Signin3_2 extends State<Signin3> {
                     String url = '${baseUrl}user/signup';
 
                     // UserResponse로 password 변수 받을 수가 없음
-                    UserResponse userResponse =
-                        await SignUp(url, signupRequest);
-
-                    // home으로 이동
-                    Navigator.of(context)
-                        .pushReplacement(MaterialPageRoute(builder: ((context) {
-                      return HomeScreen();
-                    })));
+                    await SignUp(url, signupRequest).then((value) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: ((context) => HomeScreen())));
+                    }, onError: (err) {
+                      print("[debug] ${err.toString()}");
+                      showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: const Text("회원가입"),
+                              content: const Text(
+                                  "중복되는 회원 정보가 이미 존재합니다.\n입력값을 확인 후 다시 시도해주세요."),
+                              actions: [
+                                TextButton(
+                                    onPressed: (() {
+                                      Navigator.pop(context);
+                                    }),
+                                    child: const Text("확인"))
+                              ],
+                            );
+                          }));
+                    });
                   },
                   child: const Text('계속하기'),
                 ),
