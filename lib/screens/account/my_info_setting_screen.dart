@@ -22,8 +22,11 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   // 현재 서버에 저장된 분야 목록 -> 서버에서 가져와야 할 항목
   // 서버 연동 전까지는 Dummy data로 테스트
   List<String> existedApplyFieldItems = FieldListApi.getFieldList();
-
-  var myLabelList = List<String>.filled(5, 'a', growable: true);
+  List<String> myLabelList  = [];
+  // String totalContestNum = '';
+  // List<String> contestList  = [];
+  // List<String> contestsLabelList  = [];
+  // List<String> contestsLabelNumList  = [];
   String totalContestNum = '10';
   var contestList = List<String>.filled(10, 'con', growable: true);
   var contestsLabelList = List<String>.filled(10, 'label', growable: true);
@@ -95,17 +98,17 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
 
               // call api to apply updated attrs to userinfo
               ModifyRequest modifyRequest = ModifyRequest(
-                nickname: nicknameEditController.text,
-                category: fieldEditController.text,
+                nickname: UserAttributeApi.userAttribute?.nickname,
+                category: UserAttributeApi.userAttribute?.field,
               );
               String url = '${baseUrl}user/modify';
 
               // go to myinfo
               await Modify(url, modifyRequest, tokenResponse.accessToken).then(
-                  (value) {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: ((context) => MyInfoScreen())));
-              }, onError: (err) {
+                      (value) {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: ((context) => MyInfoScreen())));
+                  }, onError: (err) {
                 showModifyErrorDialog(context);
               });
             },
@@ -142,17 +145,32 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               ), //birth
             ],
           ),
-          Padding(
-            padding:
+          Row(
+            children: [
+              Padding(
+                padding:
                 const EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
-            child: Text(
-              userAttribute.email,
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300),
-            ),
-          ), //email
+                child: Text(
+                  userAttribute.email,
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 50, top: 8, right: 8, bottom: 8),
+                child: Text(
+                  userAttribute.email,
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),//email
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -263,20 +281,21 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   controller: fieldEditController,
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
-                    List<String> applyFieldItems =
-                        value.split(' ').toSet().toList();
+                    List<String> myLabelList =
+                    value.split(' ').toSet().toList();
+                    print(myLabelList);
 
-                    applyFieldItems.removeWhere((element) {
+                    myLabelList.removeWhere((element) {
                       return !existedApplyFieldItems.contains(element);
                     });
 
                     userAttribute!.field = "";
-                    for (int i = 0; i < applyFieldItems.length; i++) {
-                      if (i == applyFieldItems.length - 1) {
-                        userAttribute.field += applyFieldItems[i];
+                    for (int i = 0; i < myLabelList.length; i++) {
+                      if (i == myLabelList.length - 1) {
+                        userAttribute.field += myLabelList[i];
                         break;
                       }
-                      userAttribute.field += "${applyFieldItems[i]} ";
+                      userAttribute.field += "${myLabelList[i]} ";
                     }
                   },
                 ),
@@ -344,7 +363,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           Expanded(
             child: ListView.builder(
               padding:
-                  const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
+              const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
                 return Text(contestList[index]);

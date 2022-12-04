@@ -4,7 +4,9 @@ import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:chip_list/chip_list.dart';
 
+import '../../http/dto.dart';
 import '../../models/current_index.dart';
 import '../../models/user_attribute.dart';
 import '../../providers/user_attribute_api.dart';
@@ -18,11 +20,6 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
   UserAttribute? userAttribute;
 
   // API를 통해 변환
-  // Dummy data for debugging
-  late String myNickname = 'Nickname';
-  late String myField = "머신러닝 프론트엔드";
-
-  var myLabelList = List<String>.filled(5, 'a', growable: true);
   String totalContestNum = '10';
   var contestList = List<String>.filled(10, 'con', growable: true);
   var contestsLabelList = List<String>.filled(10, 'label', growable: true);
@@ -30,12 +27,22 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
+    String temp  = userAttribute?.field as String;
+    List<String> myLabelList = temp.split(' ');
+
+
     userAttribute = UserAttributeApi.getUserAttribute();
 
+    // debug
+    print("[debug] accessToken: ${tokenResponse.accessToken}");
+    print("[debug] refreshToken: ${tokenResponse.refreshToken}");
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Center(
           child: Text(
@@ -62,9 +69,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
         children: <Widget>[
           Row(
             children: <Widget>[
+              const SizedBox(
+                height: 8.0,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 50, top: 8, right: 8, bottom: 8),
+                    left: 50, right: 8),
                 child: Text(
                   userAttribute!.name,
                   style: const TextStyle(
@@ -73,9 +83,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       fontWeight: FontWeight.w700),
                 ),
               ), //name
+              const SizedBox(
+                height: 16.0,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 50, top: 8, right: 8, bottom: 8),
+                    left: 50, right: 8),
                 child: Text(
                   DateFormat("yyyy/MM/dd").format(userAttribute.birthDate),
                   style: const TextStyle(
@@ -86,9 +99,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               ), //birth
             ],
           ),
+          const SizedBox(
+            height: 16.0,
+          ),
           Padding(
             padding:
-                const EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
+            const EdgeInsets.only(left: 50, right: 8),
             child: Text(
               userAttribute.email,
               style: const TextStyle(
@@ -99,8 +115,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           ), //email
           Row(
             children: <Widget>[
+              const SizedBox(
+                height: 16.0,
+              ),
               const Padding(
-                padding: EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
+                padding: EdgeInsets.only(left: 50, right: 8),
                 child: Text(
                   '닉네임',
                   style: TextStyle(
@@ -109,9 +128,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       fontWeight: FontWeight.w700),
                 ),
               ), //'닉네임:'
+              const SizedBox(
+                height: 16.0,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 50, top: 8, right: 8, bottom: 8),
+                    left: 50, right: 8),
                 child: Text(
                   userAttribute.nickname,
                   style: const TextStyle(
@@ -125,8 +147,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              const SizedBox(
+                height: 16.0,
+              ),
               const Padding(
-                padding: EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
+                padding: EdgeInsets.only(left: 50, right: 8),
                 child: Text(
                   '분야',
                   style: TextStyle(
@@ -135,15 +160,22 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       fontWeight: FontWeight.w700),
                 ),
               ), //'분야:'
+              const SizedBox(
+                height: 16.0,
+              ),
               const Padding(
-                padding: EdgeInsets.only(left: 30, top: 8, right: 8, bottom: 8),
+                padding: EdgeInsets.only(left: 30, right: 8),
               ),
-              Chip(
-                label: Text(userAttribute.field),
-                labelPadding: const EdgeInsets.all(2.0),
-                deleteIcon: const Icon(Icons.clear),
-              ),
+              ChipList(listOfChipNames: myLabelList,
+                  activeBgColorList: [Theme.of(context).primaryColor],
+                  inactiveBgColorList: [Theme.of(context).primaryColor],
+                  activeTextColorList: const [Colors.white],
+                  inactiveTextColorList: const [Colors.white],
+                  listOfChipIndicesCurrentlySeclected: const [0])
             ],
+          ),
+          const SizedBox(
+            height: 8.0,
           ),
           const Divider(
             color: Colors.grey,
@@ -152,8 +184,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
             indent: 1,
             endIndent: 1,
           ),
+          const SizedBox(
+            height: 8.0,
+          ),
           const Padding(
-            padding: EdgeInsets.only(left: 30, top: 8, right: 8, bottom: 8),
+            padding: EdgeInsets.only(left: 30, right: 8),
             child: Text(
               '스펙',
               style: TextStyle(
@@ -165,8 +200,11 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              const SizedBox(
+                height: 16.0,
+              ),
               const Padding(
-                padding: EdgeInsets.only(left: 30, top: 8, right: 8, bottom: 8),
+                padding: EdgeInsets.only(left: 30, right: 8),
                 child: Text(
                   '참여 공모전 횟수',
                   style: TextStyle(
@@ -175,9 +213,12 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                       fontWeight: FontWeight.w700),
                 ),
               ), //'분야:'
+              const SizedBox(
+                height: 16.0,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 8, top: 8, right: 30, bottom: 8),
+                    left: 8, right: 30, bottom: 8),
                 child: Text(
                   '$totalContestNum개',
                   style: const TextStyle(
@@ -193,7 +234,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
           Expanded(
             child: ListView.builder(
               padding:
-                  const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
+              const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
                 return Text(contestList[index]);
