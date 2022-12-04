@@ -4,6 +4,7 @@ import 'package:dawu_start_from_homescreen/http/request.dart';
 import 'package:dawu_start_from_homescreen/screens/account/signin1.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -39,6 +40,8 @@ class LoginScreen_ extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TokenResponse? tokenResponse = Provider.of<TokenResponse?>(context);
+
     return MaterialApp(
         home: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -172,6 +175,15 @@ class LoginScreen_ extends State<LoginScreen> {
                         String url = '${baseUrl}user/login';
 
                         await Login(url, loginRequest).then((value) {
+                          print("[debug] ${tokenResponse ?? 'empty'}");
+
+                          tokenResponse = value.tokenResponse;
+
+                          if (tokenResponse != null) {
+                            print("[debug] ${tokenResponse?.accessToken}");
+                            print("[debug] ${tokenResponse?.refreshToken}");
+                          }
+
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: ((context) => HomeScreen())));

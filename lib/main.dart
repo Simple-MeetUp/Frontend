@@ -10,6 +10,8 @@ import 'package:dawu_start_from_homescreen/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'http/dto.dart';
+
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = {};
@@ -52,6 +54,7 @@ class MyApp extends StatelessWidget {
         Provider<UserAttribute?>.value(
             value: UserAttributeApi.getUserAttribute()), // for ContestList,
         Provider<UserAuthInfo?>.value(value: UserAuthInfoApi.getUserAuthInfo()),
+        Provider<TokenResponse?>.value(value: null),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
