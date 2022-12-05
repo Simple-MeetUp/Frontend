@@ -12,7 +12,7 @@ class UserAttributeApi {
         gender: true,
         birthDate: DateTime.now(),
         field: "");
-
+    //  GetUserInfo 실행
     return userAttribute;
   }
 

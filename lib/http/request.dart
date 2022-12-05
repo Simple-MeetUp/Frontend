@@ -16,11 +16,11 @@ Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
     body: signUpRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return UserResponse.fromJson(jsonDecode(response.body));
+    return UserResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     // Future 객체의 실행구문에서 error 발생시켜, 호출한 구문의 then() 내부의 onError 콜백 함수가 실행되도록 한다.
     return Future.error(
-        '${json.decode(response.body)['status']}: Failed to post signup');
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to post signup');
   }
 }
 
@@ -33,11 +33,11 @@ Future<UserResponse> Login(String uri, LoginRequest loginRequest) async {
     body: loginRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return UserResponse.fromJson(jsonDecode(response.body));
+    return UserResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     // Future 객체의 실행구문에서 error 발생시켜, 호출한 구문의 then() 내부의 onError 콜백 함수가 실행되도록 한다.
     return Future.error(
-        '${json.decode(response.body)['status']}: Failed to post login');
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to post login');
   }
 }
 
@@ -52,11 +52,11 @@ Future<UserResponse> Modify(
     body: modifyRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return UserResponse.fromJson(jsonDecode(response.body));
+    return UserResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     // Future 객체의 실행구문에서 error 발생시켜, 호출한 구문의 then() 내부의 onError 콜백 함수가 실행되도록 한다.
     return Future.error(
-        '${json.decode(response.body)['status']}: Failed to post login');
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to post login');
   }
 }
 
@@ -69,7 +69,7 @@ Future<StringResponse> Reset(String uri, EmailRequest emailRequest) async {
     body: emailRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return StringResponse.fromJson(jsonDecode(response.body));
+    return StringResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -82,7 +82,7 @@ Future<StringResponse> Nickname(String uri, String nickname) async {
     }),
   );
   if (response.statusCode == 200) {
-    return StringResponse.fromJson(jsonDecode(response.body));
+    return StringResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -97,7 +97,7 @@ Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
     body: emailRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return StringResponse.fromJson(jsonDecode(response.body));
+    return StringResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -153,11 +153,11 @@ Future<CompetitionResponse?> Submit(String uri, Contest contest,
       }));
   if (response.statusCode == 200) {
     print("[debug] submitting successful");
-    return CompetitionResponse.fromJson(jsonDecode(response.body));
+    return CompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     print("[debug] ${response.statusCode} error on submitting");
     return Future.error(
-        '${json.decode(response.body)['status']}: Failed to submit contest');
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to submit contest');
   }
 }
 
@@ -171,7 +171,7 @@ Future<CompetitionResponse> Set(
     body: competitionRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return CompetitionResponse.fromJson(jsonDecode(response.body));
+    return CompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -184,7 +184,7 @@ Future<CompetitionResponse> Join(String uri, String mission) async {
     }),
   );
   if (response.statusCode == 200) {
-    return CompetitionResponse.fromJson(jsonDecode(response.body));
+    return CompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -197,7 +197,7 @@ Future<PageCompetitionResponse> Get(String uri, String status) async {
     }),
   );
   if (response.statusCode == 200) {
-    return PageCompetitionResponse.fromJson(jsonDecode(response.body));
+    return PageCompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
