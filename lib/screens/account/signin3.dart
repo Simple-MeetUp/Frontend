@@ -8,6 +8,7 @@ import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
+import '../../models/user_attribute.dart';
 
 class Signin3 extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class Signin3_2 extends State<Signin3> {
   @override
   Widget build(BuildContext context) {
     TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
+    UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
     return MaterialApp(
         home: Scaffold(
@@ -168,6 +170,27 @@ class Signin3_2 extends State<Signin3> {
                           value.tokenResponse?.accessToken;
                       tokenResponse.refreshToken =
                           value.tokenResponse?.refreshToken;
+
+                      userAttribute?.email = value.email!;
+                      userAttribute?.name = value.name!;
+                      if(value.gender == 'MALE'){
+                        userAttribute?.gender = true;
+                      }
+                      if(value.gender == 'FEMALE'){
+                        userAttribute?.gender = false;
+                      }
+                      String temp = value.birthday as String;
+                      userAttribute?.birthDate = DateFormat('yyyy-MM-dd').parse(temp);
+                      userAttribute?.nickname = value.nickname!;
+                      if(value.category==null){
+                        userAttribute?.field = '';
+                      }
+                      else{userAttribute?.field = value.category!;}
+
+                      print('[debug] home: ${userAttribute?.name}');
+                      print('[debug] home: ${userAttribute?.gender}');
+                      print('[debug] home: ${userAttribute?.field}');
+                      print('[debug]home: ${userAttribute?.birthDate}');
 
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) => HomeScreen())));
