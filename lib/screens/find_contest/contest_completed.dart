@@ -1,3 +1,4 @@
+import 'package:dawu_start_from_homescreen/constants.dart';
 import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _CompletedContestScreenState extends State<CompletedContestScreen> {
           return ContestTile(
             index: index,
             contest: contestList.competitions[index],
+            detailType: DETAIL_TYPE.APPLY,
           );
         }));
   }

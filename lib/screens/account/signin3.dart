@@ -143,8 +143,6 @@ class Signin3_2 extends State<Signin3> {
                     backgroundColor: defaultColor,
                   ),
                   onPressed: () async {
-                    UserAttributeApi.show(); // debug
-
                     // 성별, 생년월일 전달 후
                     UserAttributeApi.resetGender(isSwitched);
                     UserAttributeApi.resetBirthdate(
@@ -188,11 +186,6 @@ class Signin3_2 extends State<Signin3> {
                       } else {
                         userAttribute?.field = value.categories!;
                       }
-
-                      print('[debug] home: ${userAttribute?.name}');
-                      print('[debug] home: ${userAttribute?.gender}');
-                      print('[debug] home: ${userAttribute?.field}');
-                      print('[debug]home: ${userAttribute?.birthDate}');
 
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) => HomeScreen())));

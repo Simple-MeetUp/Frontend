@@ -1,7 +1,9 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
+import 'package:dawu_start_from_homescreen/models/is_browsed.dart';
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/models/user_auth_info.dart';
+import 'package:dawu_start_from_homescreen/models/user_id.dart';
 import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
 import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
@@ -56,9 +58,10 @@ class MyApp extends StatelessWidget {
         Provider<UserAuthInfo?>.value(value: UserAuthInfoApi.getUserAuthInfo()),
         Provider<TokenResponse>.value(
             value: TokenResponse("", accessToken: "", refreshToken: "")),
-        Provider<bool>.value(
+        Provider<IsBrowsed>.value(
             // 경진대회 목록 불러오기 여부
-            value: false)
+            value: IsBrowsed(isBrowsed: false)),
+        Provider<UserId>.value(value: UserId(userId: -1)) // userId
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

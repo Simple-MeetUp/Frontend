@@ -50,10 +50,10 @@ class _ContestListScreenState extends State<ContestListScreen>
           controller: _tabController,
           tabs: const [
             Tab(
-              child: Text("참여 가능", style: TextStyle(fontSize: 20)),
+              child: Text("진행중", style: TextStyle(fontSize: 20)),
             ),
             Tab(
-              child: Text("진행중", style: TextStyle(fontSize: 20)),
+              child: Text("참여 가능", style: TextStyle(fontSize: 20)),
             ),
             Tab(
               child: Text("완료", style: TextStyle(fontSize: 20)),
@@ -62,8 +62,8 @@ class _ContestListScreenState extends State<ContestListScreen>
         ),
       ),
       body: TabBarView(controller: _tabController, children: [
-        OngoingContestScreen(),
         JoinableContestScreen(),
+        OngoingContestScreen(),
         CompletedContestScreen()
       ]),
       floatingActionButton: FloatingActionButton(

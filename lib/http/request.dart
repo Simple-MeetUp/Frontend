@@ -110,18 +110,13 @@ Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
 }
 
 Future<int> GetUserId(String uri, String? token) async {
-  print('[debug] token in GetUserId: ${token ?? ""}');
   final response = await http.get(Uri.parse(uri), headers: <String, String>{
     'Content-Type': 'application/json',
     HttpHeaders.authorizationHeader: "Bearer ${token!}"
   });
   if (response.statusCode == 200) {
-    print(
-        "[debug] response GetUserId: ${int.parse(json.decode(response.body)['message'])}");
     return int.parse(json.decode(response.body)['message']);
   } else {
-    print(
-        "[debug] response GetUserId: '${json.decode(utf8.decode(response.bodyBytes))}: failed to get userId'}");
     return Future.error(
         '${json.decode(utf8.decode(response.bodyBytes))['status']}: failed to get userId');
   }
@@ -129,26 +124,6 @@ Future<int> GetUserId(String uri, String? token) async {
 
 Future<CompetitionResponse?> Submit(
     String uri, Contest contest, ContestInfo contestInfo, String? token) async {
-  print('[debug] ${json.encode(<String, dynamic>{
-        "activityDurationFrom": DateFormat("yyyy-MM-dd")
-            .format(contestInfo.activityStartPeriod)
-            .toString(),
-        "activityDurationTo": DateFormat("yyyy-MM-dd")
-            .format(contestInfo.activityDuePeriod)
-            .toString(),
-        "categories": contestInfo.field.split(" "),
-        "contents": contestInfo.description,
-        "enrollDurationFrom": DateFormat("yyyy-MM-dd")
-            .format(contestInfo.registerStartPeriod)
-            .toString(),
-        "enrollDurationTo": DateFormat("yyyy-MM-dd")
-            .format(contestInfo.registerDuePeriod)
-            .toString(),
-        "personnelLowerBound": contestInfo.minPeople,
-        "personnelUpperBound": contestInfo.maxPeople,
-        "title": contest.title
-      })}');
-
   final Uri newUri = Uri.parse(uri);
 
   final response = await http.post(newUri,
@@ -176,11 +151,9 @@ Future<CompetitionResponse?> Submit(
         "title": contest.title
       }));
   if (response.statusCode == 200) {
-    print("[debug] submitting successful");
     return CompetitionResponse.fromJson(
         jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
-    print("[debug] ${response.statusCode} error on submitting");
     return Future.error(
         '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to submit contest');
   }
@@ -203,17 +176,20 @@ Future<CompetitionResponse> Set(
   }
 }
 
-Future<CompetitionResponse> Join(String uri, String mission) async {
-  final response = await http.post(
-    Uri(path: uri, queryParameters: <String, String>{
-      'mission': mission,
-    }),
-  );
+Future<CompetitionResponse> Join(
+    String uri, int competitionId, String? token) async {
+  final Uri newUri = Uri.parse("$uri?competitionId=$competitionId");
+
+  print("[debug] token: $token");
+
+  final response = await http.post(newUri,
+      headers: {HttpHeaders.authorizationHeader: "Bearer ${token!}"});
   if (response.statusCode == 200) {
     return CompetitionResponse.fromJson(
         jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
-    throw Exception('Failed to post login');
+    return Future.error(
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: failed to participation');
   }
 }
 
@@ -235,8 +211,6 @@ Future<PageCompetitionResponse> Get(String uri, String status) async {
 Future<PageCompetitionResponse> GetCompetitions(String uri, int? userId) async {
   final response = await http.get(Uri.parse(uri));
   if (response.statusCode == 200) {
-    print('[debug] response well');
-
     var json = <String, dynamic>{
       'competitions': jsonDecode(utf8.decode(response.bodyBytes)),
       'userId': userId ?? 0

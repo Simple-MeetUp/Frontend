@@ -75,7 +75,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
         gender: true,
         birthDate: DateTime(2022));
 
-    // debug
     print("[debug] accessToken: ${tokenResponse.accessToken}");
     print("[debug] refreshToken: ${tokenResponse.refreshToken}");
 
@@ -103,7 +102,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                 nickname: UserAttributeApi.userAttribute?.nickname,
                 categories: myLabelList,
               );
-              print('[debug] set: $myLabelList');
+
               String url = '${baseUrl}user/modify';
 
               // go to myinfo

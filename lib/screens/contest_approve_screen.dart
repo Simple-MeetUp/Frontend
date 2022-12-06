@@ -1,23 +1,20 @@
 import 'package:dawu_start_from_homescreen/http/dto.dart';
-import 'package:dawu_start_from_homescreen/screens/contest_apply_screen.dart';
+import 'package:dawu_start_from_homescreen/screens/contest_approve_confirm_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ContestDetailScreen extends StatelessWidget {
-  final int index;
+class ContestApproveScreen extends StatelessWidget {
   late CompetitionResponse contest;
 
   List<String> keyList = ["내용", "관련 분야", "모집 인원", "활동 기간", "신청 기간"];
   Map<String, String> infoTable = {};
 
-  ContestDetailScreen({required this.index, required this.contest});
+  ContestApproveScreen({required this.contest});
 
   // TO DO: implement below widgets
   @override
   Widget build(BuildContext context) {
     TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
-
-    print('[debug] index: $index, competition id: ${contest.competitionId}');
 
     infoTable["내용"] = contest.contents ?? "";
     infoTable["관련 분야"] = contest.categories ?? "";
@@ -49,14 +46,15 @@ class ContestDetailScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6667AB)),
                       onPressed: (() {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: ((context) {
-                          return ContestApplyScreen(
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: ((context) {
+                          return ContestApproveConfirmScreen(
+                            contest: contest,
                             competitionId: contest.competitionId ?? -1,
                           );
                         })));
                       }),
-                      child: const Text("참가신청",
+                      child: const Text("신청자 확인",
                           style: TextStyle(
                             fontSize: 15,
                           )))

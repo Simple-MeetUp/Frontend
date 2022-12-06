@@ -160,7 +160,14 @@ class CompetitionResponse {
   CompetitionResponse.fromJson(Map<String, dynamic> json) {
     activityDurationFrom = json['activityDurationFrom'];
     activityDurationTo = json['activityDurationTo'];
-    categories = json['categories'].cast<String>().join(' ');
+
+    json['categories'] = json['categories'] ?? [];
+    if (json['categories'].length > 0) {
+      categories = json['categories'].cast<String>().join(' ');
+    } else {
+      categories = "";
+    }
+
     competitionId = json['competitionId'];
     contents = json['contents'];
     enrollDurationFrom = json['enrollDurationFrom'];

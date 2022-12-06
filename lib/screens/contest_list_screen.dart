@@ -1,6 +1,8 @@
 import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/http/request.dart';
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
+import 'package:dawu_start_from_homescreen/models/is_browsed.dart';
+import 'package:dawu_start_from_homescreen/models/user_id.dart';
 import 'package:dawu_start_from_homescreen/screens/account/my_info_screen.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_register_screen.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
@@ -19,7 +21,7 @@ class ContestListScreen extends StatefulWidget {
   }
 }
 
-Future<PageCompetitionResponse> _getUserId(String? token) async {
+Future<PageCompetitionResponse> _getUserCompetition(String? token) async {
   String uri = "${baseUrl}user/userId";
   late int userId;
   late PageCompetitionResponse competitionResponse;
@@ -31,9 +33,6 @@ Future<PageCompetitionResponse> _getUserId(String? token) async {
       competitionResponse = value;
     });
   }));
-
-  print(
-      "[debug] competitionResponse result: ${competitionResponse.competitions}, ${competitionResponse.userId}");
 
   return competitionResponse;
 }
@@ -51,12 +50,6 @@ class _ContestListScreenState extends State<ContestListScreen>
   }
 
   @override
-  void didChangeDependencies() {
-    isBrowsed = Provider.of<bool>(context);
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
@@ -67,33 +60,31 @@ class _ContestListScreenState extends State<ContestListScreen>
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     PageCompetitionResponse competitionResponse =
         Provider.of<PageCompetitionResponse>(context);
+    IsBrowsed isBrowsed = Provider.of<IsBrowsed>(context);
+    UserId userId = Provider.of<UserId>(context);
 
     TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
 
-    _getUserId(tokenResponse.accessToken).then(((value) {
-      print("[debug] provider: $isBrowsed");
-
-      if (isBrowsed == false) {
+    _getUserCompetition(tokenResponse.accessToken).then(((value) {
+      if (isBrowsed.isBrowsed == false) {
         Future.delayed(const Duration(milliseconds: 200), (() {
           setState(() {
             competitionResponse.competitions = value.competitions;
             competitionResponse.userId = value.userId;
-            isBrowsed = true;
+            userId.userId = value.userId;
+            isBrowsed.isBrowsed = true;
           });
         }));
-
-        print(
-            "[debug] ${competitionResponse.competitions}, ${competitionResponse.userId}");
       }
     }), onError: (err) {
-      if (isBrowsed == true) {
+      if (isBrowsed.isBrowsed == true) {
         setState(() {
-          isBrowsed = false;
+          isBrowsed.isBrowsed = false;
         });
       }
     });
 
-    if (isBrowsed == false) {
+    if (isBrowsed.isBrowsed == false) {
       return const Scaffold(
           body: Center(
         child: CircularProgressIndicator(),
@@ -127,8 +118,8 @@ class _ContestListScreenState extends State<ContestListScreen>
           ),
         ),
         body: TabBarView(controller: _tabController, children: [
-          OngoingContestScreen(),
           JoinableContestScreen(),
+          OngoingContestScreen(),
           CompletedContestScreen()
         ]),
         floatingActionButton: FloatingActionButton(
@@ -148,8 +139,6 @@ class _ContestListScreenState extends State<ContestListScreen>
           ],
           selectedItemColor: const Color(0xFF6667AB),
           onTap: ((value) {
-            print("[debug] $isBrowsed");
-
             setState(() {
               currentIndex.setCurrentIndex(value);
               switch (currentIndex.index) {

@@ -1,3 +1,4 @@
+import 'package:dawu_start_from_homescreen/models/is_browsed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +9,7 @@ class ContestRegisterCompleteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isBrowsedProvider = Provider.of<bool>(context); // 공모전 목록 불러오기 여부
+    IsBrowsed isBrowsed = Provider.of<IsBrowsed>(context); // 공모전 목록 불러오기 여부
 
     return WillPopScope(
       onWillPop: _onWillPop, // disable back button on this screen
@@ -40,7 +41,7 @@ class ContestRegisterCompleteScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: (() {
-              isBrowsedProvider = false;
+              isBrowsed.isBrowsed = false;
               Navigator.of(context).pop();
             }),
             style: ElevatedButton.styleFrom(

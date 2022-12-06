@@ -1,12 +1,21 @@
+import 'package:dawu_start_from_homescreen/http/dto.dart';
+import 'package:dawu_start_from_homescreen/http/request.dart';
 import 'package:dawu_start_from_homescreen/providers/field_list_api.dart';
 import 'package:dawu_start_from_homescreen/screens/components/showing_spec_tile.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_apply_complete_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../constants.dart';
 
 class ContestApplyScreen extends StatefulWidget {
+  final int competitionId;
+
+  const ContestApplyScreen({required this.competitionId});
+
   @override
   State<StatefulWidget> createState() {
-    return _ContestApplyScreenState();
+    return _ContestApplyScreenState(competitionId: competitionId);
   }
 }
 
@@ -14,8 +23,14 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
   // 무조건 build() 밖에 써준다.
   final ValueNotifier<String> alertMessage = ValueNotifier<String>("");
 
+  final int competitionId;
+
+  _ContestApplyScreenState({required this.competitionId});
+
   @override
   Widget build(BuildContext context) {
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
+
     String applyField = ""; // 분야 Form 필드에 입력된 문자열
     List<String> applyFieldItems = [];
 
@@ -239,7 +254,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
               ),
               const Padding(padding: EdgeInsets.all(5)),
               ElevatedButton(
-                onPressed: (() {
+                onPressed: (() async {
                   if (alertMessage.value != alertMessageList[OK]) {
                     showDialog(
                         context: context,
@@ -259,10 +274,16 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
                     return;
                   }
 
-                  Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: ((context) {
-                    return ContestApplyCompleteScreen();
-                  })));
+                  String uri = "${baseUrl}competition/participate";
+                  await Join(uri, competitionId, tokenResponse.accessToken)
+                      .then((value) {
+                    Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(builder: ((context) {
+                      return ContestApplyCompleteScreen();
+                    })));
+                  }, onError: (err) {
+                    print(err.toString());
+                  });
                 }),
                 style: ElevatedButton.styleFrom(
                     fixedSize: Size(MediaQuery.of(context).size.width * 0.8,
