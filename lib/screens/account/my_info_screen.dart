@@ -17,7 +17,6 @@ class MyInfoScreen extends StatefulWidget {
 }
 
 class _MyInfoScreenState extends State<MyInfoScreen> {
-  UserAttribute? userAttribute;
 
   // API를 통해 변환
   String totalContestNum = '10';
@@ -90,7 +89,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
                 padding: const EdgeInsets.only(
                     left: 50, right: 8),
                 child: Text(
-                  DateFormat("yyyy/MM/dd").format(userAttribute.birthDate),
+                  DateFormat("yyyy.MM.dd").format(userAttribute.birthDate),
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.black,

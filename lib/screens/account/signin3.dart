@@ -179,8 +179,8 @@ class Signin3_2 extends State<Signin3> {
                       if(value.gender == 'FEMALE'){
                         userAttribute?.gender = false;
                       }
-                      String temp = value.birthday as String;
-                      userAttribute?.birthDate = DateFormat('yyyy-MM-dd').parse(temp);
+
+                      userAttribute?.birthDate = DateTime.parse(value.birthday!);
                       userAttribute?.nickname = value.nickname!;
                       if(value.category==null){
                         userAttribute?.field = '';

@@ -117,14 +117,16 @@ class LoginRequest {
 
 class ModifyRequest {
   String? nickname;
-  String? category;
+  List<String>? categories;
 
-  ModifyRequest({this.nickname, this.category});
+  ModifyRequest({this.nickname, this.categories});
 
   String toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['nickname'] = nickname;
-    data['category'] = category;
+    data['categories'] = List<String>.from(categories!.map((x) => x));
+    data['showParticipationCount'] = true;
+    data['showParticipationList'] = true;
     return jsonEncode(data);
   }
 }

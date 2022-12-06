@@ -22,7 +22,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   // 현재 서버에 저장된 분야 목록 -> 서버에서 가져와야 할 항목
   // 서버 연동 전까지는 Dummy data로 테스트
   List<String> existedApplyFieldItems = FieldListApi.getFieldList();
-  List<String> myLabelList  = [];
   // String totalContestNum = '';
   // List<String> contestList  = [];
   // List<String> contestsLabelList  = [];
@@ -65,6 +64,9 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
+    String temp  = userAttribute?.field as String;
+    List<String> myLabelList = temp.split(' ');
+
     userAttribute ??= UserAttribute(
         email: "",
         nickname: "",
@@ -99,13 +101,15 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               // call api to apply updated attrs to userinfo
               ModifyRequest modifyRequest = ModifyRequest(
                 nickname: UserAttributeApi.userAttribute?.nickname,
-                category: UserAttributeApi.userAttribute?.field,
+                categories: myLabelList,
               );
+              print('[debug] set: $myLabelList');
               String url = '${baseUrl}user/modify';
 
               // go to myinfo
               await Modify(url, modifyRequest, tokenResponse.accessToken).then(
                       (value) {
+                        print(value.category);
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: ((context) => MyInfoScreen())));
                   }, onError: (err) {
@@ -136,7 +140,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                 padding: const EdgeInsets.only(
                     left: 50, top: 8, right: 8, bottom: 8),
                 child: Text(
-                  DateFormat("yyyy/MM/dd").format(userAttribute.birthDate),
+                  DateFormat("yyyy.MM.dd").format(userAttribute.birthDate),
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.black,
@@ -281,7 +285,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   controller: fieldEditController,
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
-                    List<String> myLabelList =
+                    myLabelList =
                     value.split(' ').toSet().toList();
                     print(myLabelList);
 

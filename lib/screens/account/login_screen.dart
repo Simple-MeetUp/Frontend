@@ -191,8 +191,8 @@ class LoginScreen_ extends State<LoginScreen> {
                           if(value.gender == 'FEMALE'){
                             userAttribute?.gender = false;
                           }
-                          String temp = value.birthday as String;
-                          userAttribute?.birthDate = DateFormat('yyyy-MM-dd').parse(temp);
+
+                          userAttribute?.birthDate = DateTime.parse(value.birthday!);
                           userAttribute?.nickname = value.nickname!;
                           if(value.category==null){
                             userAttribute?.field = '';
