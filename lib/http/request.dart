@@ -7,6 +7,12 @@ import 'package:intl/intl.dart';
 import '../models/ContestInfo.dart';
 import 'dto.dart';
 
+// 지금까지 구현된 것
+// 로그인, 회원가입, 공모전 생성, 사용자 설정
+
+// 구현해야 할 것
+// 공모전 목록 가져오기, 참가, 참가 승인
+
 Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
   final response = await http.post(
     Uri.parse(uri),
@@ -42,12 +48,12 @@ Future<UserResponse> Login(String uri, LoginRequest loginRequest) async {
 }
 
 Future<UserResponse> Modify(
-    String uri, ModifyRequest modifyRequest, String? accessToken) async {
+    String uri, ModifyRequest modifyRequest, String? token) async {
   final response = await http.post(
     Uri.parse(uri),
     headers: <String, String>{
       'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: "Bearer ${accessToken!}"
+      HttpHeaders.authorizationHeader: "Bearer ${token!}"
     },
     body: modifyRequest.toJson(),
   );
@@ -103,8 +109,21 @@ Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
   }
 }
 
-Future<CompetitionResponse?> Submit(String uri, Contest contest,
-    ContestInfo contestInfo, String? accessToken) async {
+Future<int> GetUserId(String uri, String? token) async {
+  final response = await http.get(Uri.parse(uri), headers: <String, String>{
+    'Content-Type': 'application/json',
+    HttpHeaders.authorizationHeader: "Bearer ${token!}"
+  });
+  if (response.statusCode == 200) {
+    return int.parse(response.body);
+  } else {
+    return Future.error(
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: failed to get userId');
+  }
+}
+
+Future<CompetitionResponse?> Submit(
+    String uri, Contest contest, ContestInfo contestInfo, String? token) async {
   print('[debug] ${json.encode(<String, dynamic>{
         "activityDurationFrom": DateFormat("yyyy-MM-dd")
             .format(contestInfo.activityStartPeriod)
@@ -130,7 +149,7 @@ Future<CompetitionResponse?> Submit(String uri, Contest contest,
   final response = await http.post(newUri,
       headers: {
         'Content-Type': 'application/json',
-        HttpHeaders.authorizationHeader: "Bearer ${accessToken!}"
+        HttpHeaders.authorizationHeader: "Bearer ${token!}"
       },
       body: json.encode(<String, dynamic>{
         "activityDurationFrom": DateFormat("yyyy-MM-dd")
@@ -153,7 +172,8 @@ Future<CompetitionResponse?> Submit(String uri, Contest contest,
       }));
   if (response.statusCode == 200) {
     print("[debug] submitting successful");
-    return CompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    return CompetitionResponse.fromJson(
+        jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     print("[debug] ${response.statusCode} error on submitting");
     return Future.error(
@@ -171,7 +191,8 @@ Future<CompetitionResponse> Set(
     body: competitionRequest.toJson(),
   );
   if (response.statusCode == 200) {
-    return CompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    return CompetitionResponse.fromJson(
+        jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -184,7 +205,8 @@ Future<CompetitionResponse> Join(String uri, String mission) async {
     }),
   );
   if (response.statusCode == 200) {
-    return CompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    return CompetitionResponse.fromJson(
+        jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
   }
@@ -197,8 +219,23 @@ Future<PageCompetitionResponse> Get(String uri, String status) async {
     }),
   );
   if (response.statusCode == 200) {
-    return PageCompetitionResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    return PageCompetitionResponse.fromJson(
+        jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to post login');
+  }
+}
+
+// userId를 통해 현재 만들어진 경진대회를 찾는 요청
+Future<PageCompetitionResponse> GetCompetitions(String uri, int userId) async {
+  final response = await http.get(
+    Uri(path: uri, queryParameters: <String, int>{'userId': userId}),
+  );
+  if (response.statusCode == 200) {
+    return PageCompetitionResponse.fromJson(
+        jsonDecode(utf8.decode(response.bodyBytes)));
+  } else {
+    return Future.error(
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to get competitions');
   }
 }

@@ -22,7 +22,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
   // 현재 서버에 저장된 분야 목록 -> 서버에서 가져와야 할 항목
   // 서버 연동 전까지는 Dummy data로 테스트
   List<String> existedApplyFieldItems = FieldListApi.getFieldList();
-  List<String> myLabelList  = [];
+  List<String> myLabelList = [];
   // String totalContestNum = '';
   // List<String> contestList  = [];
   // List<String> contestsLabelList  = [];
@@ -105,10 +105,10 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
 
               // go to myinfo
               await Modify(url, modifyRequest, tokenResponse.accessToken).then(
-                      (value) {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: ((context) => MyInfoScreen())));
-                  }, onError: (err) {
+                  (value) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: ((context) => MyInfoScreen())));
+              }, onError: (err) {
                 showModifyErrorDialog(context);
               });
             },
@@ -148,8 +148,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           Row(
             children: [
               Padding(
-                padding:
-                const EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
+                padding: const EdgeInsets.only(
+                    left: 50, top: 8, right: 8, bottom: 8),
                 child: Text(
                   userAttribute.email,
                   style: const TextStyle(
@@ -168,7 +168,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                       color: Colors.black,
                       fontWeight: FontWeight.w300),
                 ),
-              ),//email
+              ), //email
             ],
           ),
           Row(
@@ -282,7 +282,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
                     List<String> myLabelList =
-                    value.split(' ').toSet().toList();
+                        value.split(' ').toSet().toList();
                     print(myLabelList);
 
                     myLabelList.removeWhere((element) {
@@ -363,7 +363,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           Expanded(
             child: ListView.builder(
               padding:
-              const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
+                  const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
                 return Text(contestList[index]);

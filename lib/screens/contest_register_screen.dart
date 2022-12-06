@@ -157,8 +157,6 @@ class _ContestRegisterScreenState extends State<ContestRegisterScreen> {
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     final TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
 
-    print('[debug] accessToken = ${tokenResponse.accessToken}');
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("공모전 등록",

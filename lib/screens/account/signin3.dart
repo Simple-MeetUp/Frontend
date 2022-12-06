@@ -173,24 +173,28 @@ class Signin3_2 extends State<Signin3> {
 
                       userAttribute?.email = value.email!;
                       userAttribute?.name = value.name!;
-                      if(value.gender == 'MALE'){
+                      if (value.gender == 'MALE') {
                         userAttribute?.gender = true;
                       }
-                      if(value.gender == 'FEMALE'){
+                      if (value.gender == 'FEMALE') {
                         userAttribute?.gender = false;
                       }
-                      String temp = value.birthday as String;
-                      userAttribute?.birthDate = DateFormat('yyyy-MM-dd').parse(temp);
+                      // String temp = value.birthday as String;
+                      // TO DO: birthday 포맷 해결
+                      userAttribute?.birthDate =
+                          DateTime.parse(value.birthday!);
+
                       userAttribute?.nickname = value.nickname!;
-                      if(value.category==null){
+                      if (value.category == null) {
                         userAttribute?.field = '';
+                      } else {
+                        userAttribute?.field = value.category!;
                       }
-                      else{userAttribute?.field = value.category!;}
 
                       print('[debug] home: ${userAttribute?.name}');
                       print('[debug] home: ${userAttribute?.gender}');
                       print('[debug] home: ${userAttribute?.field}');
-                      print('[debug]home: ${userAttribute?.birthDate}');
+                      print('[debug] home: ${userAttribute?.birthDate}');
 
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: ((context) => HomeScreen())));
