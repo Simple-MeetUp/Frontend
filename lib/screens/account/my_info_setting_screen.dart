@@ -64,7 +64,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
     UserAttribute? userAttribute = Provider.of<UserAttribute?>(context);
 
-    String temp  = userAttribute?.field as String;
+    String temp = userAttribute?.field as String;
     List<String> myLabelList = temp.split(' ');
 
     userAttribute ??= UserAttribute(
@@ -108,11 +108,11 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
 
               // go to myinfo
               await Modify(url, modifyRequest, tokenResponse.accessToken).then(
-                      (value) {
-                        print(value.category);
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: ((context) => MyInfoScreen())));
-                  }, onError: (err) {
+                  (value) {
+                print(value.category);
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: ((context) => MyInfoScreen())));
+              }, onError: (err) {
                 showModifyErrorDialog(context);
               });
             },
@@ -152,8 +152,8 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           Row(
             children: [
               Padding(
-                padding:
-                const EdgeInsets.only(left: 50, top: 8, right: 8, bottom: 8),
+                padding: const EdgeInsets.only(
+                    left: 50, top: 8, right: 8, bottom: 8),
                 child: Text(
                   userAttribute.email,
                   style: const TextStyle(
@@ -172,7 +172,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                       color: Colors.black,
                       fontWeight: FontWeight.w300),
                 ),
-              ),//email
+              ), //email
             ],
           ),
           Row(
@@ -285,8 +285,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   controller: fieldEditController,
                   enabled: fieldEditisEnable,
                   onChanged: (value) {
-                    myLabelList =
-                    value.split(' ').toSet().toList();
+                    myLabelList = value.split(' ').toSet().toList();
                     print(myLabelList);
 
                     myLabelList.removeWhere((element) {
@@ -367,7 +366,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
           Expanded(
             child: ListView.builder(
               padding:
-              const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
+                  const EdgeInsets.only(left: 70, top: 0, right: 8, bottom: 8),
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
                 return Text(contestList[index]);

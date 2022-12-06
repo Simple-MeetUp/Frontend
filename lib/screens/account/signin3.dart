@@ -173,19 +173,21 @@ class Signin3_2 extends State<Signin3> {
 
                       userAttribute?.email = value.email!;
                       userAttribute?.name = value.name!;
-                      if(value.gender == 'MALE'){
+                      if (value.gender == 'MALE') {
                         userAttribute?.gender = true;
                       }
-                      if(value.gender == 'FEMALE'){
+                      if (value.gender == 'FEMALE') {
                         userAttribute?.gender = false;
                       }
 
-                      userAttribute?.birthDate = DateTime.parse(value.birthday!);
+                      userAttribute?.birthDate =
+                          DateTime.parse(value.birthday!);
                       userAttribute?.nickname = value.nickname!;
-                      if(value.category==null){
+                      if (value.category == null) {
                         userAttribute?.field = '';
+                      } else {
+                        userAttribute?.field = value.category!;
                       }
-                      else{userAttribute?.field = value.category!;}
 
                       print('[debug] home: ${userAttribute?.name}');
                       print('[debug] home: ${userAttribute?.gender}');
