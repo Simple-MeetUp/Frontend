@@ -110,13 +110,18 @@ Future<StringResponse> Email(String uri, EmailRequest emailRequest) async {
 }
 
 Future<int> GetUserId(String uri, String? token) async {
+  print('[debug] token in GetUserId: ${token ?? ""}');
   final response = await http.get(Uri.parse(uri), headers: <String, String>{
     'Content-Type': 'application/json',
     HttpHeaders.authorizationHeader: "Bearer ${token!}"
   });
   if (response.statusCode == 200) {
-    return int.parse(response.body);
+    print(
+        "[debug] response GetUserId: ${int.parse(json.decode(response.body)['message'])}");
+    return int.parse(json.decode(response.body)['message']);
   } else {
+    print(
+        "[debug] response GetUserId: '${json.decode(utf8.decode(response.bodyBytes))}: failed to get userId'}");
     return Future.error(
         '${json.decode(utf8.decode(response.bodyBytes))['status']}: failed to get userId');
   }
@@ -227,15 +232,19 @@ Future<PageCompetitionResponse> Get(String uri, String status) async {
 }
 
 // userId를 통해 현재 만들어진 경진대회를 찾는 요청
-Future<PageCompetitionResponse> GetCompetitions(String uri, int userId) async {
-  final response = await http.get(
-    Uri(path: uri, queryParameters: <String, int>{'userId': userId}),
-  );
+Future<PageCompetitionResponse> GetCompetitions(String uri, int? userId) async {
+  final response = await http.get(Uri.parse(uri));
   if (response.statusCode == 200) {
-    return PageCompetitionResponse.fromJson(
-        jsonDecode(utf8.decode(response.bodyBytes)));
+    print('[debug] response well');
+
+    var json = <String, dynamic>{
+      'competitions': jsonDecode(utf8.decode(response.bodyBytes)),
+      'userId': userId ?? 0
+    };
+
+    return PageCompetitionResponse.fromJson(json);
   } else {
     return Future.error(
-        '${json.decode(utf8.decode(response.bodyBytes))['status']}: Failed to get competitions');
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: ${response.statusCode} Failed to get competitions');
   }
 }

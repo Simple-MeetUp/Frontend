@@ -1,30 +1,27 @@
-import 'package:dawu_start_from_homescreen/models/Contest.dart';
-import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
+import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_apply_screen.dart';
 import 'package:flutter/material.dart';
 
 class ContestDetailScreen extends StatelessWidget {
   final int index;
-  late Contest contest;
+  late CompetitionResponse contest;
 
   List<String> keyList = ["내용", "관련 분야", "모집 인원", "활동 기간", "신청 기간"];
   Map<String, String> infoTable = {};
 
-  ContestDetailScreen({required this.index});
+  ContestDetailScreen({required this.index, required this.contest});
 
   // TO DO: implement below widgets
   @override
   Widget build(BuildContext context) {
-    contest = ContestListApi.getContest(index);
-
-    infoTable["내용"] = contest.contestInfo.description.toString();
-    infoTable["관련 분야"] = contest.contestInfo.field.toString();
+    infoTable["내용"] = contest.contents ?? "";
+    infoTable["관련 분야"] = contest.categories ?? "";
     infoTable["모집 인원"] =
-        "최소 ${contest.contestInfo.minPeople}명 ~ 최대 ${contest.contestInfo.maxPeople}명";
+        "최소 ${contest.personnelLowerBound}명 ~ 최대 ${contest.personnelUpperBound}명";
     infoTable["활동 기간"] =
-        "${contest.contestInfo.activityStartPeriod} ~ ${contest.contestInfo.activityDuePeriod}";
+        "${contest.activityDurationFrom} ~ ${contest.activityDurationTo}";
     infoTable["신청 기간"] =
-        "${contest.contestInfo.registerStartPeriod} ~ ${contest.contestInfo.registerDuePeriod}";
+        "${contest.enrollDurationFrom} ~ ${contest.enrollDurationTo}";
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +37,7 @@ class ContestDetailScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(contest.title,
+                  Text(contest.title ?? "",
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold)),
                   ElevatedButton(
@@ -57,12 +54,6 @@ class ContestDetailScreen extends StatelessWidget {
                             fontSize: 15,
                           )))
                 ],
-              ),
-              const Padding(padding: EdgeInsets.all(10)),
-              Image.network(
-                contest.thumbnail,
-                height: MediaQuery.of(context).size.height * 0.2,
-                fit: BoxFit.fitHeight,
               ),
               const Padding(padding: EdgeInsets.all(10)),
               GridView.builder(

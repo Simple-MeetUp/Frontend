@@ -183,10 +183,10 @@ class Signin3_2 extends State<Signin3> {
                       userAttribute?.birthDate =
                           DateTime.parse(value.birthday!);
                       userAttribute?.nickname = value.nickname!;
-                      if (value.category == null) {
+                      if (value.categories == null) {
                         userAttribute?.field = '';
                       } else {
-                        userAttribute?.field = value.category!;
+                        userAttribute?.field = value.categories!;
                       }
 
                       print('[debug] home: ${userAttribute?.name}');

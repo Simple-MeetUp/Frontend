@@ -109,7 +109,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
               // go to myinfo
               await Modify(url, modifyRequest, tokenResponse.accessToken).then(
                   (value) {
-                print(value.category);
+                print(value.categories);
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: ((context) => MyInfoScreen())));
               }, onError: (err) {

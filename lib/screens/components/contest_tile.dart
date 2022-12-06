@@ -1,27 +1,24 @@
+import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/Contest.dart';
-
 class ContestTile extends StatelessWidget {
   final int index;
-  final Contest contest;
+  final CompetitionResponse contest;
 
   const ContestTile({required this.index, required this.contest});
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "[debug] ContestTile: $index, ${contest.title}, ${contest.categories}"); // 절대 지우지 말 것
+
     return ListTile(
-      title: Text(contest.title),
-      subtitle: Text(contest.subtitle),
-      leading: Image.network(
-        contest.thumbnail,
-        width: MediaQuery.of(context).size.width * 0.13,
-        fit: BoxFit.fitWidth,
-      ),
+      title: Text(contest.title ?? ""),
+      subtitle: Text(contest.categories ?? ""),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-          return ContestDetailScreen(index: index);
+          return ContestDetailScreen(index: index, contest: contest);
         })));
       },
     );

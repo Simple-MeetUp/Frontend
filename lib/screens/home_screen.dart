@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../http/dto.dart';
-import '../models/Contest.dart';
 import 'components/contest_tile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,68 +18,32 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
+Future<PageCompetitionResponse> _getUserId(String? token) async {
+  String uri = "${baseUrl}user/userId";
+  late int userId;
+  late PageCompetitionResponse competitionResponse;
+
+  await GetUserId(uri, token!).then(((value) async {
+    String uri = "${baseUrl}competition/getCompetitions";
+    userId = value;
+    await GetCompetitions("$uri?userId=$userId", userId).then((value) {
+      competitionResponse = value;
+    });
+  }));
+
+  print(
+      "[debug] competitionResponse result: ${competitionResponse.competitions}, ${competitionResponse.userId}");
+
+  return competitionResponse;
+}
+
 class _HomeScreenState extends State<HomeScreen> {
   bool? isChecked = false;
-
-  bool isBrowsed = false; // 공모전 목록 불러오기 여부
-  int interval = 600; // competition 오류 발생 시, 요청을 다시 보내는 주기 (초 단위)
-
-  late PageCompetitionResponse? competitionResponse;
-
-  Future<PageCompetitionResponse?> getCompetitions(
-      BuildContext context, String? token) async {
-    const String uri = "${baseUrl}api​/competition​/getCompetitions";
-    late int? userId;
-    late PageCompetitionResponse? competitionResponse;
-
-    await GetUserId(uri, token!).then(((value) async {
-      userId = value;
-      await GetCompetitions(uri, userId!).then((value) {
-        setState(() {
-          competitionResponse = value;
-        });
-        return competitionResponse;
-      });
-    }));
-    return null;
-  }
-
-  void showNetworkErrorDialog(BuildContext context, String? token) {
-    showDialog(
-        context: context,
-        builder: ((context) {
-          return AlertDialog(
-            title: const Text("오류"),
-            content: const Text("서버와의 통신이 원활하지 않습니다.\n잠시 후 시도하세요."),
-            actions: [
-              TextButton(
-                  onPressed: (() async {
-                    await getCompetitions(context, token).then((value) {
-                      setState(() {
-                        competitionResponse = value;
-                      });
-                    });
-                  }),
-                  child: const Text("다시 시도"))
-            ],
-          );
-        }));
-  }
+  bool isBrowsed = false;
 
   @override
   void didChangeDependencies() {
-    TokenResponse tokenResponse = Provider.of<TokenResponse>(context); // debug
-    print("[debug] accessToken: ${tokenResponse.accessToken}");
-    print("[debug] refreshToken: ${tokenResponse.refreshToken}");
-
-    getCompetitions(context, tokenResponse.accessToken).then((value) {
-      print(
-          "[debug] userId: ${value?.userId}, competitions: ${value?.competitions}");
-      isBrowsed = true;
-    }, onError: (err) {
-      print(
-          "An error occured: ${err.toString()}.\nRetry in 5 seconds later...");
-    });
+    isBrowsed = Provider.of<bool>(context);
 
     super.didChangeDependencies();
   }
@@ -88,66 +51,95 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final CurrentIndex currentIndex = Provider.of<CurrentIndex>(context);
-    final List<Contest> contestList = Provider.of<List<Contest>>(context);
+    bool isBrowsedProvider = Provider.of<bool>(context);
+    PageCompetitionResponse competitionResponse =
+        Provider.of<PageCompetitionResponse>(context);
 
-    TokenResponse tokenResponse = Provider.of<TokenResponse>(context); // debug
+    TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
+
+    _getUserId(tokenResponse.accessToken).then(((value) {
+      print("[debug] provider: $isBrowsed");
+
+      if (isBrowsed == false) {
+        isBrowsedProvider = true;
+        setState(() {
+          isBrowsed = true;
+          competitionResponse.competitions = value.competitions;
+          competitionResponse.userId = value.userId;
+        });
+
+        print(
+            "[debug] ${competitionResponse.competitions}, ${competitionResponse.userId}");
+      }
+    }), onError: (err) {
+      if (isBrowsed == true) {
+        setState(() {
+          isBrowsed = false;
+        });
+      }
+    });
 
     if (isBrowsed == false) {
-      showNetworkErrorDialog(context, tokenResponse.accessToken);
-      return const Scaffold();
+      return const Scaffold(
+          body: Center(
+        child: CircularProgressIndicator(),
+      ));
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("홈",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          backgroundColor: const Color(0xFF6667AB),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: competitionResponse.competitions.length,
+                    itemBuilder: ((context, index) {
+                      return ContestTile(
+                          index: index,
+                          contest: competitionResponse.competitions[index]);
+                    })))
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.list), label: "공모전"),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
+          ],
+          currentIndex: currentIndex.index,
+          selectedItemColor: const Color(0xFF6667AB),
+          onTap: ((value) {
+            isBrowsedProvider = true;
+            print("[debug] provider: $isBrowsedProvider");
+
+            setState(() {
+              currentIndex.setCurrentIndex(value);
+              switch (currentIndex.index) {
+                case 0:
+                  Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(builder: ((context) {
+                    return ContestListScreen();
+                  })));
+                  break;
+
+                case 1:
+                  break;
+
+                case 2:
+                  Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(builder: ((context) {
+                    return MyInfoScreen();
+                  })));
+                  break;
+              }
+            });
+          }),
+        ),
+      );
     }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("홈",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF6667AB),
-      ),
-      body: Column(
-        children: [
-          // https://stackoverflow.com/questions/53974288/flutter-listview-bottom-overflow
-          Expanded(
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: contestList.length,
-                  itemBuilder: ((context, index) {
-                    return ContestTile(
-                        index: index, contest: contestList[index]);
-                  })))
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: "공모전"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "내정보"),
-        ],
-        currentIndex: currentIndex.index,
-        selectedItemColor: const Color(0xFF6667AB),
-        onTap: ((value) {
-          setState(() {
-            currentIndex.setCurrentIndex(value);
-            switch (currentIndex.index) {
-              case 0:
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: ((context) {
-                  return ContestListScreen();
-                })));
-                break;
-
-              case 1:
-                break;
-
-              case 2:
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: ((context) {
-                  return MyInfoScreen();
-                })));
-                break;
-            }
-          });
-        }),
-      ),
-    );
   }
 }

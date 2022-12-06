@@ -31,7 +31,7 @@ class SignUpRequest {
 
 class UserResponse {
   String? birthday;
-  String? category;
+  String? categories;
   String? email;
   String? gender;
   String? name;
@@ -40,7 +40,7 @@ class UserResponse {
 
   UserResponse(
       {this.birthday,
-      this.category,
+      this.categories,
       this.email,
       this.gender,
       this.name,
@@ -49,7 +49,7 @@ class UserResponse {
 
   UserResponse.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'];
-    category = json['category'];
+    categories = json['categories'].cast<String>().join(' ');
     email = json['email'];
     gender = json['gender'];
     name = json['name'];
@@ -134,7 +134,7 @@ class ModifyRequest {
 class CompetitionResponse {
   String? activityDurationFrom;
   String? activityDurationTo;
-  String? category;
+  String? categories;
   int? competitionId;
   String? contents;
   String? enrollDurationFrom;
@@ -147,7 +147,7 @@ class CompetitionResponse {
   CompetitionResponse(
       {this.activityDurationFrom,
       this.activityDurationTo,
-      this.category,
+      this.categories,
       this.competitionId,
       this.contents,
       this.enrollDurationFrom,
@@ -160,7 +160,7 @@ class CompetitionResponse {
   CompetitionResponse.fromJson(Map<String, dynamic> json) {
     activityDurationFrom = json['activityDurationFrom'];
     activityDurationTo = json['activityDurationTo'];
-    category = json['category'];
+    categories = json['categories'].cast<String>().join(' ');
     competitionId = json['competitionId'];
     contents = json['contents'];
     enrollDurationFrom = json['enrollDurationFrom'];
@@ -173,16 +173,16 @@ class CompetitionResponse {
 }
 
 class PageCompetitionResponse {
-  List<CompetitionResponse>? competitions;
-  int? userId;
+  List<CompetitionResponse> competitions = [];
+  int userId = 0;
 
-  PageCompetitionResponse({this.competitions, this.userId});
+  PageCompetitionResponse({required this.competitions, required this.userId});
 
   PageCompetitionResponse.fromJson(Map<String, dynamic> json) {
     if (json['competitions'] != null) {
       competitions = <CompetitionResponse>[];
       json['competitions'].forEach((v) {
-        competitions!.add(CompetitionResponse.fromJson(v));
+        competitions.add(CompetitionResponse.fromJson(v));
       });
     }
     userId = json['userId'];

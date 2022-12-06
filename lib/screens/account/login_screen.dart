@@ -5,7 +5,6 @@ import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/screens/account/signin1.dart';
 import 'package:dawu_start_from_homescreen/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -185,25 +184,21 @@ class LoginScreen_ extends State<LoginScreen> {
 
                           userAttribute?.email = value.email!;
                           userAttribute?.name = value.name!;
-                          if(value.gender == 'MALE'){
+                          if (value.gender == 'MALE') {
                             userAttribute?.gender = true;
                           }
-                          if(value.gender == 'FEMALE'){
+                          if (value.gender == 'FEMALE') {
                             userAttribute?.gender = false;
                           }
 
-                          userAttribute?.birthDate = DateTime.parse(value.birthday!);
+                          userAttribute?.birthDate =
+                              DateTime.parse(value.birthday!);
                           userAttribute?.nickname = value.nickname!;
-                          if(value.category==null){
+                          if (value.categories == null) {
                             userAttribute?.field = '';
+                          } else {
+                            userAttribute?.field = value.categories!;
                           }
-                          else{userAttribute?.field = value.category!;}
-
-                          print('[debug] home: ${userAttribute?.name}');
-                          print('[debug] home: ${userAttribute?.gender}');
-                          print('[debug] home: ${userAttribute?.field}');
-                          print('[debug]home: ${userAttribute?.birthDate}');
-
 
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(

@@ -1,7 +1,7 @@
+import 'package:dawu_start_from_homescreen/http/dto.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/Contest.dart';
 import '../components/contest_tile.dart';
 
 //  TabView
@@ -15,16 +15,16 @@ class CompletedContestScreen extends StatefulWidget {
 class _CompletedContestScreenState extends State<CompletedContestScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<Contest> contestList = Provider.of<List<Contest>>(context);
+    final PageCompetitionResponse contestList =
+        Provider.of<PageCompetitionResponse>(context);
 
     return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: contestList.length,
+        itemCount: contestList.competitions.length,
         itemBuilder: ((context, index) {
           return ContestTile(
             index: index,
-            contest: contestList[index],
+            contest: contestList.competitions[index],
           );
         }));
   }

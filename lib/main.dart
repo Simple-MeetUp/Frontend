@@ -1,5 +1,4 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
-import 'package:dawu_start_from_homescreen/models/Contest.dart';
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/models/user_auth_info.dart';
@@ -49,13 +48,17 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<CurrentIndex>.value(
             value: CurrentIndex(index: 1)), // for BottomNavigationBar
-        Provider<List<Contest>>.value(
-            value: ContestListApi.getContestList()), // for ContestList
+        Provider<PageCompetitionResponse>.value(
+            value: PageCompetitionResponse(
+                competitions: [], userId: 0)), // for ContestList
         Provider<UserAttribute?>.value(
             value: UserAttributeApi.getUserAttribute()), // for ContestList,
         Provider<UserAuthInfo?>.value(value: UserAuthInfoApi.getUserAuthInfo()),
         Provider<TokenResponse>.value(
             value: TokenResponse("", accessToken: "", refreshToken: "")),
+        Provider<bool>.value(
+            // 경진대회 목록 불러오기 여부
+            value: false)
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
