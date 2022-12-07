@@ -164,6 +164,8 @@ class Signin3_2 extends State<Signin3> {
 
                     // UserResponse로 password 변수 받을 수가 없음
                     await SignUp(url, signupRequest).then((value) {
+                      print('[debug] future successful');
+
                       tokenResponse.accessToken =
                           value.tokenResponse?.accessToken;
                       tokenResponse.refreshToken =
@@ -187,9 +189,14 @@ class Signin3_2 extends State<Signin3> {
                         userAttribute?.field = value.categories!;
                       }
 
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) => HomeScreen())));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: ((context) => HomeScreen())), (_) {
+                        return false;
+                      });
                     }, onError: (err) {
+                      print('[debug] future error: ${err.toString()}');
+
                       showDialog(
                           context: context,
                           builder: ((context) {

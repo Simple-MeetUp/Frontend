@@ -24,8 +24,11 @@ class Signin2 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.15,
+            ),
             const Padding(
-              padding: EdgeInsets.only(left: 20, top: 40),
+              padding: EdgeInsets.only(left: 20),
               child: Text("거의 다 왔습니다.",
                   style: TextStyle(
                       fontSize: 28.0,
@@ -87,7 +90,10 @@ class Signin2 extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
               child: TextFormField(
-                inputFormatters: [FilteringTextInputFormatter(RegExp('[a-z A-Z ㄱ-ㅎ|가-힣|·|：]'), allow: true)],
+                inputFormatters: [
+                  FilteringTextInputFormatter(RegExp('[a-z A-Z ㄱ-ㅎ|가-힣|·|：]'),
+                      allow: true)
+                ],
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -109,30 +115,29 @@ class Signin2 extends StatelessWidget {
                 controller: nameInputController,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 50),
-              child: SizedBox(
-                width: 340, // <-- match_parent
-                height: 50, //
-                child: ElevatedButton(
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.05,
+            ),
+            Center(
+              child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20),
                     backgroundColor: defaultColor,
+                    minimumSize: const Size(350, 50),
                   ),
                   onPressed: () {
                     if (formGlobalKey.currentState!.validate()) {
                       // 닉네임 이름 수정 후
-                      UserAttributeApi.resetNickname(nicknameInputController.text);
+                      UserAttributeApi.resetNickname(
+                          nicknameInputController.text);
                       UserAttributeApi.resetName(nameInputController.text);
                       // 화면 전환
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).push(
                           MaterialPageRoute(builder: ((context) => Signin3())));
                     }
                   },
-                  child: const Text('계속하기'),
-                ),
-              ),
-            ),
+                  child: const Text('계속하기')),
+            )
           ],
         ),
       ),

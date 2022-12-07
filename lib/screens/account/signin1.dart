@@ -31,8 +31,8 @@ class Signin1 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const SizedBox(
-                height: 40.0,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 20),
@@ -162,8 +162,8 @@ class Signin1 extends StatelessWidget {
                   controller: pwreInputController,
                 ),
               ),
-              const SizedBox(
-                height: 20.0,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Center(
                 child: ElevatedButton(
@@ -180,7 +180,7 @@ class Signin1 extends StatelessWidget {
                       UserAuthInfoApi.resetPW(pwInputController.text);
 
                       // 화면 전환
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).push(
                           MaterialPageRoute(builder: ((context) => Signin2())));
                     }
                   },

@@ -14,6 +14,8 @@ import 'dto.dart';
 // 공모전 목록 가져오기, 참가, 참가 승인
 
 Future<UserResponse> SignUp(String uri, SignUpRequest signUpRequest) async {
+  print('[debug] ${signUpRequest.toJson()}');
+
   final response = await http.post(
     Uri.parse(uri),
     headers: <String, String>{
@@ -215,7 +217,20 @@ Future<PageCompetitionResponse> GetCompetitions(String uri, int? userId) async {
       'competitions': jsonDecode(utf8.decode(response.bodyBytes)),
       'userId': userId ?? 0
     };
+    return PageCompetitionResponse.fromJson(json);
+  } else {
+    return Future.error(
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: ${response.statusCode} Failed to get competitions');
+  }
+}
 
+Future<PageCompetitionResponse> GetCompetitionsAll(
+    String uri, int? userId) async {
+  final response = await http.get(Uri.parse(uri));
+
+  if (response.statusCode == 200) {
+    var json = jsonDecode(utf8.decode(response.bodyBytes));
+    print("[debug] response 200: ${jsonEncode(json)}");
     return PageCompetitionResponse.fromJson(json);
   } else {
     return Future.error(

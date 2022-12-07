@@ -26,21 +26,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 Future<PageCompetitionResponse> _getUserCompetition(String? token) async {
-  String uri = "${baseUrl}user/userId";
-  late int userId;
   late PageCompetitionResponse competitionResponse;
+  late int? userId;
 
-  await GetUserId(uri, token!).then(((value) async {
-    String uri = "${baseUrl}competition/getCompetitions";
+  String uri = "${baseUrl}user/userId";
+
+  // userId가 속한 competition만 가져오기
+  // await GetUserId(uri, token!).then(((value) async {
+  //   String uri = "${baseUrl}competition/getCompetitions";
+  //   userId = value;
+  //   await GetCompetitions("$uri?userId=$userId", userId).then((value) {
+  //     competitionResponse = value;
+  //   });
+  // }));
+
+  // 모든 competition 가져오기
+  await GetUserId(uri, token).then(((value) async {
+    uri = "${baseUrl}competition/zget";
     userId = value;
-    await GetCompetitions("$uri?userId=$userId", userId).then((value) {
+    await GetCompetitionsAll(uri, userId).then((value) {
+      print(value);
       competitionResponse = value;
     });
   }));
 
   print(
       "[debug] competitionResponse result: ${competitionResponse.competitions}, ${competitionResponse.userId}");
-
   return competitionResponse;
 }
 

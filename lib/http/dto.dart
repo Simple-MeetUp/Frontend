@@ -18,12 +18,12 @@ class SignUpRequest {
 
   String toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['birthday'] = birthday;
-    data['email'] = email;
-    data['gender'] = gender;
-    data['name'] = name;
-    data['nickname'] = nickname;
-    data['password'] = password;
+    data['birthday'] = birthday ?? "";
+    data['email'] = email ?? "";
+    data['gender'] = gender ?? "";
+    data['name'] = name ?? "";
+    data['nickname'] = nickname ?? "";
+    data['password'] = password ?? "";
 
     return json.encode(data); // json.encode 적용하여 최종적으로 String 형태로 반환
   }
@@ -48,12 +48,19 @@ class UserResponse {
       this.tokenResponse});
 
   UserResponse.fromJson(Map<String, dynamic> json) {
-    birthday = json['birthday'];
-    categories = json['categories'].cast<String>().join(' ');
-    email = json['email'];
-    gender = json['gender'];
-    name = json['name'];
-    nickname = json['nickname'];
+    birthday = json['birthday'] ?? "";
+
+    json['categories'] = json['categories'] ?? [];
+    if (json['categories'].length > 0) {
+      categories = json['categories'].cast<String>().join(' ');
+    } else {
+      categories = "";
+    }
+
+    email = json['email'] ?? "";
+    gender = json['gender'] ?? "";
+    name = json['name'] ?? "";
+    nickname = json['nickname'] ?? "";
     tokenResponse = json['tokenResponse'] != null
         ? TokenResponse.fromJson(json['tokenResponse'])
         : null;
@@ -73,8 +80,8 @@ class TokenResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['accessToken'] = accessToken;
-    data['refreshToken'] = refreshToken;
+    data['accessToken'] = accessToken ?? "";
+    data['refreshToken'] = refreshToken ?? "";
     return data;
   }
 }
@@ -86,7 +93,7 @@ class EmailRequest {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['email'] = email;
+    data['email'] = email ?? "";
     return data;
   }
 }
@@ -97,7 +104,7 @@ class StringResponse {
   StringResponse({this.message});
 
   StringResponse.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+    message = json['message'] ?? "";
   }
 }
 
@@ -109,8 +116,8 @@ class LoginRequest {
 
   String toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['email'] = email;
-    data['password'] = password;
+    data['email'] = email ?? "";
+    data['password'] = password ?? "";
     return jsonEncode(data);
   }
 }
@@ -158,8 +165,11 @@ class CompetitionResponse {
       this.title});
 
   CompetitionResponse.fromJson(Map<String, dynamic> json) {
-    activityDurationFrom = json['activityDurationFrom'];
-    activityDurationTo = json['activityDurationTo'];
+    print("[debug] ${jsonEncode(json)}");
+
+    activityDurationFrom = json['activityDurationFrom'] ?? "";
+    activityDurationTo = json['activityDurationTo'] ?? "";
+    print("[debug] activityDuration passed");
 
     json['categories'] = json['categories'] ?? [];
     if (json['categories'].length > 0) {
@@ -167,15 +177,27 @@ class CompetitionResponse {
     } else {
       categories = "";
     }
+    print("[debug] categories passed");
 
-    competitionId = json['competitionId'];
-    contents = json['contents'];
-    enrollDurationFrom = json['enrollDurationFrom'];
-    enrollDurationTo = json['enrollDurationTo'];
-    personnelLowerBound = json['personnelLowerBound'];
-    personnelUpperBound = json['personnelUpperBound'];
-    status = json['status'];
-    title = json['title'];
+    competitionId = json['competitionId'] ?? 0;
+    print("[debug] competition passed");
+
+    contents = json['contents'] ?? "";
+    print("[debug] contents passed");
+
+    enrollDurationFrom = json['enrollDurationFrom'] ?? "";
+    enrollDurationTo = json['enrollDurationTo'] ?? "";
+    print("[debug] enrollDuration passed");
+
+    personnelLowerBound = json['personnelLowerBound'] ?? 0;
+    personnelUpperBound = json['personnelUpperBound'] ?? 0;
+    print("[debug] personnelBound passed");
+
+    status = json['status'] ?? "";
+    print("[debug] status passed");
+
+    title = json['title'] ?? "";
+    print("[debug] title passed");
   }
 }
 
@@ -186,13 +208,26 @@ class PageCompetitionResponse {
   PageCompetitionResponse({required this.competitions, required this.userId});
 
   PageCompetitionResponse.fromJson(Map<String, dynamic> json) {
+    print("[debug] json['competitions']: ${json['competitions']}");
+
     if (json['competitions'] != null) {
       competitions = <CompetitionResponse>[];
-      json['competitions'].forEach((v) {
-        competitions.add(CompetitionResponse.fromJson(v));
-      });
+
+      print("[debug] before assigning: ${json['competitions']}");
+
+      // 오류 발생 지점
+      for (var item in json['competitions']) {
+        print("[debug] item: $item");
+
+        if (item is Map<String, dynamic>) {
+          print("[debug] type checked");
+        }
+        competitions.add(CompetitionResponse.fromJson(item));
+      }
     }
-    userId = json['userId'];
+    userId = json['userId'] ?? 0;
+
+    print('[debug] competitions: ${competitions.toString()}');
   }
 }
 
@@ -220,15 +255,15 @@ class CompetitionRequest {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['activityDurationFrom'] = activityDurationFrom;
-    data['activityDurationTo'] = activityDurationTo;
-    data['category'] = category;
-    data['contents'] = contents;
-    data['enrollDurationFrom'] = enrollDurationFrom;
-    data['enrollDurationTo'] = enrollDurationTo;
-    data['personnelLowerBound'] = personnelLowerBound;
-    data['personnelUpperBound'] = personnelUpperBound;
-    data['title'] = title;
+    data['activityDurationFrom'] = activityDurationFrom ?? "";
+    data['activityDurationTo'] = activityDurationTo ?? "";
+    data['category'] = category ?? "";
+    data['contents'] = contents ?? "";
+    data['enrollDurationFrom'] = enrollDurationFrom ?? "";
+    data['enrollDurationTo'] = enrollDurationTo ?? "";
+    data['personnelLowerBound'] = personnelLowerBound ?? 0;
+    data['personnelUpperBound'] = personnelUpperBound ?? 0;
+    data['title'] = title ?? "";
     return data;
   }
 }
