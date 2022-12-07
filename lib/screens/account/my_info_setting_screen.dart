@@ -95,7 +95,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
             onPressed: () async {
               // make new attr instance
               UserAttributeApi.resetNickname(nicknameEditController.text);
-              UserAttributeApi.resetField(fieldEditController.text);
 
               // call api to apply updated attrs to userinfo
               ModifyRequest modifyRequest = ModifyRequest(
@@ -212,8 +211,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                   onPressed: () {
                     setState(() {
                       if (nicknameEditisEnable) {
-                        UserAttributeApi.resetNickname(
-                            nicknameEditController.text);
                         nicknameEditisEnable = false;
                       } else {
                         nicknameEditisEnable = true;
@@ -277,7 +274,7 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                     Icons.list_alt,
                     color: Colors.black26,
                     size: 32,
-                  )), //'닉네임:'
+                  )),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: TextFormField(
@@ -308,7 +305,6 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                     setState(() {
                       if (fieldEditisEnable) {
                         // if field String is enable.
-                        UserAttributeApi.resetField(fieldEditController.text);
                         fieldEditisEnable = false;
                       } else {
                         fieldEditisEnable = true;
