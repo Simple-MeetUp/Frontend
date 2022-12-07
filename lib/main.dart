@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: createMaterialColor(defaultColor),
         ),
-        home: SplashScreen(), // origin : HomeScreen()
+        home: SplashScreen(),
       ),
     );
   }
