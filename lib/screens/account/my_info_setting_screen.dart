@@ -160,17 +160,9 @@ class _MyInfoSettingScreenState extends State<MyInfoSettingScreen> {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 50, top: 8, right: 8, bottom: 8),
-                child: Text(
-                  userAttribute.email,
-                  style: const TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300),
-                ),
-              ), //email
+              const SizedBox(
+                height: 8,
+              )
             ],
           ),
           Row(
