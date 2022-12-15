@@ -1,10 +1,12 @@
 import 'package:dawu_start_from_homescreen/constants.dart';
+import 'package:dawu_start_from_homescreen/models/contest_user_list.dart';
 import 'package:dawu_start_from_homescreen/models/current_index.dart';
 import 'package:dawu_start_from_homescreen/models/is_browsed.dart';
 import 'package:dawu_start_from_homescreen/models/user_attribute.dart';
 import 'package:dawu_start_from_homescreen/models/user_auth_info.dart';
 import 'package:dawu_start_from_homescreen/models/user_id.dart';
 import 'package:dawu_start_from_homescreen/providers/contest_list_api.dart';
+import 'package:dawu_start_from_homescreen/providers/contest_user_list_api.dart';
 import 'package:dawu_start_from_homescreen/providers/user_attribute_api.dart';
 import 'package:dawu_start_from_homescreen/providers/user_auth_info_api.dart';
 import 'package:dawu_start_from_homescreen/screens/splash_screen.dart';
@@ -61,7 +63,9 @@ class MyApp extends StatelessWidget {
         Provider<IsBrowsed>.value(
             // 경진대회 목록 불러오기 여부
             value: IsBrowsed(isBrowsed: false)),
-        Provider<UserId>.value(value: UserId(userId: -1)) // userId
+        Provider<UserId>.value(value: UserId(userId: -1)), // userId
+        Provider<MemberList?>.value(value: ContestMemberListApi.getUserList()),
+        Provider<AppliedList?>.value(value: ContestAppliedListApi.getUserList()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

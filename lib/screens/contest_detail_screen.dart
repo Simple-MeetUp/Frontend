@@ -30,7 +30,7 @@ class ContestDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("공모전 찾기",
+        title: const Text("공모전 정보",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF6667AB),
       ),

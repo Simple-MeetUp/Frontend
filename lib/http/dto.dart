@@ -267,3 +267,92 @@ class CompetitionRequest {
     return data;
   }
 }
+
+class UserListRequest {
+  int? competitionId;
+
+  UserListRequest({this.competitionId});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['competitionId'] = this.competitionId;
+    return data;
+  }
+}
+
+class ParticipatingUser {
+  List<UserResponses>? userResponses;
+
+  ParticipatingUser({this.userResponses});
+
+  ParticipatingUser.fromJson(Map<String, dynamic> json) {
+    if (json['userResponses'] != null) {
+      userResponses = <UserResponses>[];
+      json['userResponses'].forEach((v) {
+        userResponses!.add(UserResponses.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (this.userResponses != null) {
+      data['userResponses'] =
+          this.userResponses!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class UserResponses {
+  String? birthday;
+  List<String>? categories;
+  String? email;
+  String? gender;
+  String? name;
+  String? nickname;
+  bool? showParticipationCount;
+  bool? showParticipationList;
+  TokenResponse? tokenResponse;
+
+  UserResponses(
+      {this.birthday,
+        this.categories,
+        this.email,
+        this.gender,
+        this.name,
+        this.nickname,
+        this.showParticipationCount,
+        this.showParticipationList,
+        this.tokenResponse});
+
+  UserResponses.fromJson(Map<String, dynamic> json) {
+    birthday = json['birthday'];
+    categories = json['categories'].cast<String>();
+    email = json['email'];
+    gender = json['gender'];
+    name = json['name'];
+    nickname = json['nickname'];
+    showParticipationCount = json['showParticipationCount'];
+    showParticipationList = json['showParticipationList'];
+    tokenResponse = json['tokenResponse'] != null
+        ? new TokenResponse.fromJson(json['tokenResponse'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['birthday'] = this.birthday;
+    data['categories'] = this.categories;
+    data['email'] = this.email;
+    data['gender'] = this.gender;
+    data['name'] = this.name;
+    data['nickname'] = this.nickname;
+    data['showParticipationCount'] = this.showParticipationCount;
+    data['showParticipationList'] = this.showParticipationList;
+    if (this.tokenResponse != null) {
+      data['tokenResponse'] = this.tokenResponse!.toJson();
+    }
+    return data;
+  }
+}

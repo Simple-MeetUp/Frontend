@@ -18,11 +18,21 @@ class _OngoingContestScreenState extends State<OngoingContestScreen> {
   Widget build(BuildContext context) {
     final PageCompetitionResponse contestList =
         Provider.of<PageCompetitionResponse>(context);
+    List<int> true_index = [];
 
     return ListView.builder(
         shrinkWrap: true,
         itemCount: contestList.competitions.length,
         itemBuilder: ((context, index) {
+
+          // for(int i=0;i<index;i++){
+          //   if(isOwner(contestList.competitions[i]) == true){
+          //    //   true_index [append];
+          //    //   return ContestTile();
+          //   }
+          // }
+
+
           return ContestTile(
             index: index,
             contest: contestList.competitions[index],

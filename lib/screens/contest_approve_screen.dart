@@ -1,10 +1,16 @@
 import 'package:dawu_start_from_homescreen/http/dto.dart';
+import 'package:dawu_start_from_homescreen/http/request.dart';
+import 'package:dawu_start_from_homescreen/models/contest_user_list.dart';
+import 'package:dawu_start_from_homescreen/providers/contest_user_list_api.dart';
 import 'package:dawu_start_from_homescreen/screens/contest_approve_confirm_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../constants.dart';
+
 class ContestApproveScreen extends StatelessWidget {
   late CompetitionResponse contest;
+  int competitionId = 0;
 
   List<String> keyList = ["내용", "관련 분야", "모집 인원", "활동 기간", "신청 기간"];
   Map<String, String> infoTable = {};
@@ -15,6 +21,8 @@ class ContestApproveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TokenResponse tokenResponse = Provider.of<TokenResponse>(context);
+    MemberList memberList = Provider.of<MemberList>(context);
+    AppliedList appliedList = Provider.of<AppliedList>(context);
 
     infoTable["내용"] = contest.contents ?? "";
     infoTable["관련 분야"] = contest.categories ?? "";
@@ -24,10 +32,12 @@ class ContestApproveScreen extends StatelessWidget {
         "${contest.activityDurationFrom} ~ ${contest.activityDurationTo}";
     infoTable["신청 기간"] =
         "${contest.enrollDurationFrom} ~ ${contest.enrollDurationTo}";
+    competitionId = contest.competitionId!;
+
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("공모전 찾기",
+        title: const Text("공모전 정보",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF6667AB),
       ),
@@ -45,14 +55,41 @@ class ContestApproveScreen extends StatelessWidget {
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6667AB)),
-                      onPressed: (() {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: ((context) {
-                          return ContestApproveConfirmScreen(
-                            contest: contest,
-                            competitionId: contest.competitionId ?? -1,
-                          );
-                        })));
+                      onPressed: (() async{
+                        // TO DO : 버튼 눌리면 신청자 목록 API 호출
+                        // getParticipants getUsers
+                        print('[debug] start API');
+                        UserListRequest userListRequest = UserListRequest(
+                          competitionId: competitionId,
+                        );
+                        String uri = "${baseUrl}competition/getUsers";
+                        await GetUsers(uri, userListRequest).then((value) {
+                          print('[debug] future successful');
+                          // 팀원 list에 value 넘김
+                          print('[debug] : ');
+                          for(int i=0;i<value.userResponses!.length;i++){
+                            ContestMemberListApi.appendUserList(value.userResponses![i]);
+                          }
+                          print('[debug] member');
+                          print(value.userResponses);
+                          print(memberList.memberList);
+                        }, onError: (err) {
+                          print(err.toString());
+                            });
+                        uri = "${baseUrl}competition/getParticipants";
+                        await GetParticipants(uri, userListRequest).then((value) {
+                          print('[debug] future successful');
+                          // 참가 신청자 list에 value 넘김
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: ((context) {
+                            return ContestApproveConfirmScreen(
+                              contest: contest,
+                              competitionId: contest.competitionId ?? -1,
+                            );
+                          })));
+                        }, onError: (err) {
+                          print(err.toString());
+                        });
                       }),
                       child: const Text("신청자 확인",
                           style: TextStyle(

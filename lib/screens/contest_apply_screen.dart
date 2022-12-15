@@ -24,6 +24,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
   final ValueNotifier<String> alertMessage = ValueNotifier<String>("");
 
   final int competitionId;
+  TextEditingController categoryController = TextEditingController();
 
   _ContestApplyScreenState({required this.competitionId});
 
@@ -57,6 +58,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
           padding: const EdgeInsets.only(left: 24, right: 24),
           child: Column(
@@ -128,6 +130,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
               const Padding(padding: EdgeInsets.all(8)),
               SizedBox(
                 child: TextField(
+                  controller: categoryController,
                   onChanged: (value) {
                     if (value == "") {
                       alertMessage.value = alertMessageList[WRONG];
@@ -243,9 +246,9 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
               SizedBox(
-                height: 300,
+                height: 200,
                 child: ListView.builder(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 5),
                     shrinkWrap: true,
                     itemCount: userSpecItemList.length,
                     itemBuilder: ((context, index) {
@@ -255,7 +258,7 @@ class _ContestApplyScreenState extends State<ContestApplyScreen> {
               const Padding(padding: EdgeInsets.all(5)),
               ElevatedButton(
                 onPressed: (() async {
-                  if (alertMessage.value != alertMessageList[OK]) {
+                  if (alertMessage.value != alertMessageList[OK] || categoryController.text=="") {
                     showDialog(
                         context: context,
                         builder: ((context) {

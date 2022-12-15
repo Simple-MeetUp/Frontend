@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 신청자 확인 기능 TO DO:
 // 0. 현재 화면에서 didChangeDependencies() life cycle 메서드에서
-//    API 호춣하여 현재 팀원 목록, 신청자 목록을 가져온다.
+//    API 호출하여 현재 팀원 목록, 신청자 목록을 가져온다.
 //      -> 왜 하필 didChangeDependencies()인가?
 //      -> 위젯 생성하는 build 이전에 context를 사용할 수 있는 유일한 생명주기 함수이므로
 // 1. 신청자 확인 버튼 누르면 신청자 목록 업데이트 API 호출
@@ -42,7 +42,7 @@ class _ContestApproveConfirmScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("공모전 찾기",
+        title: const Text("신청자 확인",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF6667AB),
       ),
@@ -61,9 +61,9 @@ class _ContestApproveConfirmScreenState
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6667AB)),
                       onPressed: (() {
-                        // TO DO: 신청자 확인 버튼 누르면 신청자 목록 업데이트 API 호출
+                        // TO DO: 승인완료 버튼 누르면 신청자 목록 업데이트 API 호출
                       }),
-                      child: const Text("신청자 확인",
+                      child: const Text("승인완료",
                           style: TextStyle(
                             fontSize: 15,
                           )))

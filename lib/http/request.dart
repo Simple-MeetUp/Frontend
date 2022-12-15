@@ -237,3 +237,40 @@ Future<PageCompetitionResponse> GetCompetitionsAll(
         '${json.decode(utf8.decode(response.bodyBytes))['status']}: ${response.statusCode} Failed to get competitions');
   }
 }
+
+Future<ParticipatingUser> GetParticipants(
+    String uri, UserListRequest userListRequest) async {
+  final Uri newUri = Uri.parse("$uri?competitionId=${userListRequest.competitionId}");
+  final response = await http.get(
+    newUri,
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+  );
+  if (response.statusCode == 200) {
+    var json = jsonDecode(utf8.decode(response.bodyBytes));
+    return ParticipatingUser.fromJson(json);
+  } else {
+    return Future.error(
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: ${response.statusCode} Failed to get competitions');
+  }
+}
+
+Future<ParticipatingUser> GetUsers(
+    String uri, UserListRequest userListRequest) async {
+  final Uri newUri = Uri.parse("$uri?competitionId=${userListRequest.competitionId}");
+  final response = await http.get(
+    newUri,
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+  );
+  if (response.statusCode == 200) {
+    var json = jsonDecode(utf8.decode(response.bodyBytes));
+    print("[debug] response 200: ${json}");
+    return ParticipatingUser.fromJson(json);
+  } else {
+    return Future.error(
+        '${json.decode(utf8.decode(response.bodyBytes))['status']}: ${response.statusCode} Failed to get competitions');
+  }
+}
